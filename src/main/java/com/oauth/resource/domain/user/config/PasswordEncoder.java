@@ -1,5 +1,7 @@
 package com.oauth.resource.domain.user.config;
 
+import com.oauth.resource.domain.user.exception.UserErrorCode;
+import com.oauth.resource.global.exception.BusinessException;
 import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -21,7 +23,7 @@ public class PasswordEncoder {
     public void match(String rawPassword, String encodedPassword) {
         boolean matches = passwordEncoder.matches(rawPassword, encodedPassword);
         if (!matches) {
-            throw new IllegalArgumentException("아이디 또는 비밀번호가 일치하지 않습니다.");
+            throw BusinessException.from(UserErrorCode.LOGIN_FAILED);
         }
     }
 }
