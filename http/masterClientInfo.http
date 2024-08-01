@@ -1,0 +1,31 @@
+### 생성
+POST http://localhost:8080/master/0c502f2c-9472-438a-be58-fb3b418b391d/client/v1/create
+Content-Type: application/json
+
+{
+  "clientName": "masterClient",
+  "scopes": [
+    "read",
+    "write"
+  ]
+}
+
+### 수정
+POST http://localhost:8080/master/0c502f2c-9472-438a-be58-fb3b418b391d/client/v1/oauth-client-id/update
+Content-Type: application/json
+
+{
+  "clientName": "Example Client",
+  "clientId": "example-client-id",
+  "clientSecret": "example-client-secret",
+  "registeredRedirectUri": "https://example.com/redirect",
+  "accessTokenValiditySeconds": 3600,
+  "scopes": ["read", "write", "delete"]
+}
+
+### 조회
+GET http://localhost:8080/master/0c502f2c-9472-438a-be58-fb3b418b391d/client/v1/oauth-client-id
+Content-Type: application/json
+
+### 삭제
+POST http://localhost:8080/master/0c502f2c-9472-438a-be58-fb3b418b391d/client/v1/oauth-client-id/delete
