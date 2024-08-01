@@ -1,11 +1,11 @@
 package com.oauth.resource.domain.user.mapper;
 
-import com.oauth.resource.domain.user.config.PasswordEncoder;
 import com.oauth.resource.domain.user.dto.MasterUserInfoSaveRequest;
 import com.oauth.resource.domain.user.dto.MasterUserInfoUpdateRequest;
 import com.oauth.resource.domain.user.model.UserInfo;
 import com.oauth.resource.domain.user.model.UserRole;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
@@ -14,7 +14,7 @@ import java.util.Collections;
 @RequiredArgsConstructor
 public class UserInfoMapper {
 
-    private final PasswordEncoder passwordEncoder;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     public UserInfo createMasterUserInfo(String tenantId, MasterUserInfoSaveRequest request) {
         return new UserInfo(
@@ -22,7 +22,7 @@ public class UserInfoMapper {
                 request.username(),
                 request.userId(),
                 request.email(),
-                passwordEncoder.encrypt(request.password()),
+                passwordEncoder.encode(request.password()),
                 Collections.singleton(UserRole.MASTER)
         );
     }
@@ -32,7 +32,7 @@ public class UserInfoMapper {
                 request.username(),
                 request.userId(),
                 request.email(),
-                passwordEncoder.encrypt(request.password())
+                passwordEncoder.encode(request.password())
         );
     }
 }
