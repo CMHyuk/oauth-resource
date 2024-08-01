@@ -37,7 +37,7 @@ public class GlobalExceptionController {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ApiResponse> BindException(MethodArgumentNotValidException exception) {
+    public ResponseEntity<ApiResponse> handleBindException(MethodArgumentNotValidException exception) {
         List<String> defaultMessages = exception.getBindingResult()
                 .getFieldErrors()
                 .stream()
