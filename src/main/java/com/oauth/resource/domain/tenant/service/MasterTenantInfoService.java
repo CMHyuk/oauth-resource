@@ -34,7 +34,6 @@ public class MasterTenantInfoService {
             KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(ALGORITHM);
             return keyPairGenerator.generateKeyPair();
         } catch (Exception e) {
-            log.error(e.getMessage());
             throw BusinessException.from(new InternalServerErrorCode(e.getMessage()));
         }
     }
