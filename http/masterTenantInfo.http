@@ -1,0 +1,15 @@
+### 생성
+POST http://localhost:8080/master/tenant/v1/create
+Content-Type: application/json
+
+{
+  "tenantName": "master"
+}
+
+### 조회
+POST http://localhost:8080/master/tenant/v1/search
+Content-Type: application/json
+
+{
+  "tenantName": "master"
+}
