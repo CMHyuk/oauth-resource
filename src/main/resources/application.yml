@@ -1,3 +1,6 @@
+spring:
+  profiles:
+    active: local
 elasticsearch:
   host: ${ELASTIC_HOST:localhost}
   port: ${ELASTIC_PORT:9200}
