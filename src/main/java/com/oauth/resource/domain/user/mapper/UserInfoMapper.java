@@ -5,7 +5,7 @@ import com.oauth.resource.domain.user.dto.MasterUserInfoUpdateRequest;
 import com.oauth.resource.domain.user.model.UserInfo;
 import com.oauth.resource.domain.user.model.UserRole;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
@@ -14,7 +14,7 @@ import java.util.Collections;
 @RequiredArgsConstructor
 public class UserInfoMapper {
 
-    private final BCryptPasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     public UserInfo createMasterUserInfo(String tenantId, MasterUserInfoSaveRequest request) {
         return new UserInfo(

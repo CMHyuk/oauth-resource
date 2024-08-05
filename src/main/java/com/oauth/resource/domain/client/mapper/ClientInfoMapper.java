@@ -3,11 +3,16 @@ package com.oauth.resource.domain.client.mapper;
 import com.oauth.resource.domain.client.dto.MasterClientInfoSaveRequest;
 import com.oauth.resource.domain.client.dto.MasterClientInfoUpdateRequest;
 import com.oauth.resource.domain.client.model.ClientInfo;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class ClientInfoMapper {
+
+    private final PasswordEncoder passwordEncoder;
 
     @Value("${client.id}")
     private String clientId;
@@ -23,7 +28,7 @@ public class ClientInfoMapper {
                 tenantId,
                 request.clientName(),
                 clientId,
-                clientSecret,
+                passwordEncoder.encode(clientSecret),
                 redirectUrl,
                 request.scopes()
         );

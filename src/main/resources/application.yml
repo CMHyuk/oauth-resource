@@ -15,5 +15,5 @@ elasticsearch:
 client:
   id: oauth-client-id
   secret: oauth-client-secret
-  redirectUrl: http://10.10.30.19:9000/oauth/login-call-back
+  redirectUrl: http://127.0.0.1:8081
   tenantId: 665092d1-905e-42db-a69b-e977952e8471
