@@ -1,6 +1,14 @@
 package com.oauth.resource.domain.client.dto;
 
-import java.util.List;
+import jakarta.validation.constraints.NotBlank;
 
-public record MasterClientInfoSaveRequest(String clientName, List<String> scopes) {
+import java.util.Set;
+
+public record MasterClientInfoSaveRequest(
+        @NotBlank String clientId,
+        @NotBlank String clientName,
+        @NotBlank String clientSecret,
+        @NotBlank Set<String> redirectUris,
+        @NotBlank Set<String> scopes
+) {
 }

@@ -10,7 +10,7 @@ import org.junit.jupiter.api.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -30,7 +30,11 @@ public class MasterClientInfoAcceptanceTest extends AcceptanceTest {
         @Order(1)
         void 저장한다() {
             // given
-            MasterClientInfoSaveRequest request = new MasterClientInfoSaveRequest("test-client", List.of("read", "write"));
+            MasterClientInfoSaveRequest request = new MasterClientInfoSaveRequest("oauth-client-id",
+                    "client-name",
+                    "client-secret",
+                    Set.of("http://127.0.0.1:8081"),
+                    Set.of("read", "write"));
 
             // when
             ExtractableResponse<Response> response = RestAssured.given().log().all()
@@ -76,12 +80,12 @@ public class MasterClientInfoAcceptanceTest extends AcceptanceTest {
         void 수정한다() {
             // given
             MasterClientInfoUpdateRequest request = new MasterClientInfoUpdateRequest(
-                    "updateName",
                     UPDATED_CLIENT_ID,
+                    "updateName",
                     "updateSecret",
-                    "updateRedirectUri",
-                    200,
-                    List.of("read", "delete")
+                    Set.of("http://127.0.0.1:8081"),
+                    Set.of("read", "delete"),
+                    200
             );
 
             // when

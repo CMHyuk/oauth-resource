@@ -14,32 +14,24 @@ public class ClientInfoMapper {
 
     private final PasswordEncoder passwordEncoder;
 
-    @Value("${client.id}")
-    private String clientId;
-
-    @Value("${client.secret}")
-    private String clientSecret;
-
-    @Value("${client.redirectUrl}")
-    private String redirectUrl;
-
     public ClientInfo createMasterClientInfo(String tenantId, MasterClientInfoSaveRequest request) {
         return new ClientInfo(
                 tenantId,
                 request.clientName(),
-                clientId,
-                passwordEncoder.encode(clientSecret),
-                redirectUrl,
+                request.clientId(),
+                passwordEncoder.encode(request.clientSecret()),
+                request.redirectUris(),
                 request.scopes()
         );
     }
 
     public void update(ClientInfo clientInfo, MasterClientInfoUpdateRequest request) {
         clientInfo.update(
+                clientInfo.getTenantId(),
                 request.clientName(),
                 request.clientId(),
                 request.clientSecret(),
-                request.registeredRedirectUri(),
+                request.redirectUris(),
                 request.accessTokenValiditySeconds(),
                 request.scopes()
         );

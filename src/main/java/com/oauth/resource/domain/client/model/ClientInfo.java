@@ -10,7 +10,9 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Setting;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -29,28 +31,31 @@ public class ClientInfo {
     private String clientName;
     private String clientId;
     private String clientSecret;
-    private String registeredRedirectUri;
     private Integer accessTokenValiditySeconds;
 
     @ElementCollection
-    private List<String> scope = new ArrayList<>();
+    private Set<String> registeredRedirectUris = new HashSet<>();
 
-    public ClientInfo(String tenantId, String clientName, String clientId, String clientSecret, String registeredRedirectUri, List<String> scope) {
+    @ElementCollection
+    private Set<String> scopes = new HashSet<>();
+
+    public ClientInfo(String tenantId, String clientName, String clientId, String clientSecret, Set<String> registeredRedirectUris, Set<String> scopes) {
         this.tenantId = tenantId;
         this.clientName = clientName;
         this.clientId = clientId;
         this.clientSecret = clientSecret;
-        this.registeredRedirectUri = registeredRedirectUri;
-        this.scope = scope;
+        this.registeredRedirectUris = registeredRedirectUris;
+        this.scopes = scopes;
         this.accessTokenValiditySeconds = VALIDITY_SECONDS;
     }
 
-    public void update(String clientName, String clientId, String clientSecret, String registeredRedirectUri, Integer accessTokenValiditySeconds, List<String> scope) {
+    public void update(String tenantId, String clientName, String clientId, String clientSecret, Set<String> registeredRedirectUris, Integer accessTokenValiditySeconds, Set<String> scopes) {
+        this.tenantId = tenantId;
         this.clientName = clientName;
         this.clientId = clientId;
         this.clientSecret = clientSecret;
-        this.registeredRedirectUri = registeredRedirectUri;
+        this.registeredRedirectUris = registeredRedirectUris;
         this.accessTokenValiditySeconds = accessTokenValiditySeconds;
-        this.scope = scope;
+        this.scopes = scopes;
     }
 }

@@ -11,9 +11,3 @@ elasticsearch:
   connection-request-timeout-seconds: ${ELASTIC_CONNECTION_REQUEST_TIMEOUT_SEC:30}
   keep-alive-strategy-time-minutes: ${ELASTIC_KEEP_ALIVE_STRATEGY_TIME_MIN:5}
   scheme: http
-
-client:
-  id: oauth-client-id
-  secret: oauth-client-secret
-  redirectUrl: http://127.0.0.1:8081
-  tenantId: 665092d1-905e-42db-a69b-e977952e8471
