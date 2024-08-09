@@ -1,4 +1,4 @@
-package com.oauth.resource.global.config;
+package com.oauth.resource.domain.auth;
 
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
