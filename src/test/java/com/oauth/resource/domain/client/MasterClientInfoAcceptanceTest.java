@@ -18,8 +18,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class MasterClientInfoAcceptanceTest extends AcceptanceTest {
 
     private static final String TENANT_ID = UUID.randomUUID().toString();
-    private static final String CLIENT_ID = "oauth-client-id";
-    private static final String UPDATED_CLIENT_ID = "update-oauth-id";
+    private static final String CLIENT_ID = "oauth-client-userId";
+    private static final String UPDATED_CLIENT_ID = "update-oauth-userId";
 
     @Nested
     @DisplayName("마스터 클라이언트를")
@@ -30,7 +30,7 @@ public class MasterClientInfoAcceptanceTest extends AcceptanceTest {
         @Order(1)
         void 저장한다() {
             // given
-            MasterClientInfoSaveRequest request = new MasterClientInfoSaveRequest("oauth-client-id",
+            MasterClientInfoSaveRequest request = new MasterClientInfoSaveRequest("oauth-client-userId",
                     "client-name",
                     "client-secret",
                     Set.of("http://127.0.0.1:8081"),
