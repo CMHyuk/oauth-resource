@@ -23,4 +23,10 @@ public class UserInfoQueryRepository {
                 .filter(QueryBuilders.termQuery(USER_ID_KEYWORD, userId));
         return Optional.ofNullable(userInfoRepository.find(tenantId, query));
     }
+
+    public Optional<UserInfo> findByUserId(String userId) {
+        BoolQueryBuilder query = QueryBuilders.boolQuery()
+                .filter(QueryBuilders.termQuery(USER_ID_KEYWORD, userId));
+        return Optional.ofNullable(userInfoRepository.find(null, query));
+    }
 }

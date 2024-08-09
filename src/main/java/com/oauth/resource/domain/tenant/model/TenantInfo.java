@@ -35,6 +35,10 @@ public class TenantInfo {
         return new TenantInfo(MASTER_TENANT, tenantRSAPrivateKey, tenantRSAPublicKey);
     }
 
+    public static TenantInfo createTenant(String tenantName) {
+        return new TenantInfo(tenantName, null, null);
+    }
+
     public TenantInfo(String tenantName, byte[] tenantRSAPrivateKey, byte[] tenantRSAPublicKey) {
         this.tenantName = tenantName;
         this.tenantRSAPrivateKey = tenantRSAPrivateKey;
