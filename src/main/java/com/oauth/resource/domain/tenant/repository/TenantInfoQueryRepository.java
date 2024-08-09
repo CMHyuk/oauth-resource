@@ -17,6 +17,13 @@ public class TenantInfoQueryRepository {
 
     private final TenantInfoRepository tenantInfoRepository;
 
+    public Optional<TenantInfo> findByTenantName(String tenantName) {
+        BoolQueryBuilder query = QueryBuilders.boolQuery()
+                .filter(QueryBuilders.termQuery(TENANT_NAME_KEYWORD, tenantName));
+        TenantInfo tenantInfo = tenantInfoRepository.find(null, query);
+        return Optional.ofNullable(tenantInfo);
+    }
+
     public Optional<TenantInfo> find(MasterTenantSearchRequest request) {
         BoolQueryBuilder query = QueryBuilders.boolQuery()
                 .filter(QueryBuilders.termQuery(TENANT_NAME_KEYWORD, request.tenantName()));

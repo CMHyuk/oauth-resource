@@ -1,5 +1,6 @@
 package com.oauth.resource.domain.tenant.service;
 
+import com.oauth.resource.domain.tenant.dto.KeyResponse;
 import com.oauth.resource.domain.tenant.dto.MasterTenantSearchRequest;
 import com.oauth.resource.domain.tenant.exception.TenantErrorCode;
 import com.oauth.resource.domain.tenant.model.TenantInfo;
@@ -17,5 +18,11 @@ public class MasterTenantInfoQueryService {
     public TenantInfo search(MasterTenantSearchRequest request) {
         return tenantInfoQueryRepository.find(request)
                 .orElseThrow(() -> BusinessException.from(TenantErrorCode.NOT_FOUND));
+    }
+
+    public KeyResponse getKey(String tenantName) {
+        TenantInfo tenantInfo = tenantInfoQueryRepository.findByTenantName("master")
+                .orElseThrow(() -> BusinessException.from(TenantErrorCode.NOT_FOUND));
+        return new KeyResponse(tenantInfo.getTenantRSAPublicKey(), tenantInfo.getTenantRSAPrivateKey());
     }
 }
