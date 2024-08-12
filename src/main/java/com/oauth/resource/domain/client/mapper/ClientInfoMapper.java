@@ -1,10 +1,9 @@
 package com.oauth.resource.domain.client.mapper;
 
-import com.oauth.resource.domain.client.dto.MasterClientInfoSaveRequest;
+import com.oauth.resource.domain.client.dto.ClientInfoSaveRequest;
 import com.oauth.resource.domain.client.dto.MasterClientInfoUpdateRequest;
 import com.oauth.resource.domain.client.model.ClientInfo;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +13,7 @@ public class ClientInfoMapper {
 
     private final PasswordEncoder passwordEncoder;
 
-    public ClientInfo createMasterClientInfo(String tenantId, MasterClientInfoSaveRequest request) {
+    public ClientInfo createClientInfo(String tenantId, ClientInfoSaveRequest request) {
         return new ClientInfo(
                 tenantId,
                 request.clientName(),

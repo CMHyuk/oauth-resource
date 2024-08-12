@@ -1,5 +1,7 @@
 package com.oauth.resource.domain.user.model;
 
+import com.oauth.resource.domain.user.exception.UserErrorCode;
+import com.oauth.resource.global.exception.BusinessException;
 import com.oauth.resource.global.util.References;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -44,5 +46,15 @@ public class UserInfo {
         this.userId = userId;
         this.email = email;
         this.password = password;
+    }
+
+    public void validateMaster() {
+        if (!isMaster()) {
+            throw BusinessException.from(UserErrorCode.UNAUTHORIZED);
+        }
+    }
+
+    private boolean isMaster() {
+        return this.getRole().contains(UserRole.MASTER);
     }
 }

@@ -1,0 +1,17 @@
+### 생성
+POST http://localhost:8080/api/0c502f2c-9472-438a-be58-fb3b418b391d/client/v1/create
+Content-Type: application/json
+Authorization: Bearer eyJraWQiOiIxNDkzMWI0NS0xN2Q0LTQwMTQtODQ2Ni1iZmI3NjRmZTNmMTAiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGVtYWlsLmNvbSIsImF1ZCI6Im9hdXRoLWNsaWVudC1pZCIsIm5iZiI6MTcyMzQyNDk2Nywic2NvcGUiOlsid3JpdGUiLCJyZWFkIl0sImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6OTAwMCIsImV4cCI6MTcyMzQyNTI2NywiaWF0IjoxNzIzNDI0OTY3LCJqdGkiOiI2OTM5NTg4Mi04NzFkLTRiZjktYjM3Yy0yN2Q5NDliOTNlMTYifQ.pmgQEMpVNwlHKYyxrbIK7XVwsxKxXtbYjbcL7KOCTo-rKr_DKb1AxBBIIJX7E-ikZlzdd3Zznt3g5VmMXkGFrmlGdNyA5yIW3mAlI_Y-4bxT0HPfsFAVFg-nxpyRXNDJdXm04khVsJehGxbAWpZJfDn50cmgHeYDp4fLK-TBGUlpi9BxBqNQOfuyxioAIOckBdV0Kt6eIX3bTz9g-UoI6V60n00fzBQsJ5szUTPQCSCMB-NSGOmV_nhcsm65QqHhUtGwfl-wxNCFG2KwYILiBREWUcx9wS2q5LaXYeG9DfbSUs-Dk-Q5ECQTuMvlJn7jauSyo5meVJKIFbQxR9FiwQ
+
+{
+  "clientId": "sk-client-userId",
+  "clientName": "sk-client",
+  "clientSecret": "sk-client-secret",
+  "redirectUris": [
+    "http://127.0.0.1:8081"
+  ],
+  "scopes": [
+    "read",
+    "write"
+  ]
+}

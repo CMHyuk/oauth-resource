@@ -1,6 +1,6 @@
 package com.oauth.resource.domain.client.controller;
 
-import com.oauth.resource.domain.client.dto.MasterClientInfoResponse;
+import com.oauth.resource.domain.client.dto.ClientInfoResponse;
 import com.oauth.resource.domain.client.model.ClientInfo;
 import com.oauth.resource.domain.client.service.MasterClientInfoQueryService;
 import com.oauth.resource.global.exception.ApiResponse;
@@ -21,7 +21,7 @@ public class MasterClientInfoQueryController {
     @GetMapping("/{tenantId}/client/v1/{clientId}")
     public ResponseEntity<ApiResponse> find(@PathVariable String tenantId, @PathVariable String clientId) {
         ClientInfo clientInfo = masterClientInfoQueryService.find(tenantId, clientId);
-        MasterClientInfoResponse response = MasterClientInfoResponse.from(clientInfo);
+        ClientInfoResponse response = ClientInfoResponse.from(clientInfo);
         return ResponseEntity.ok().body(ApiResponse.success(response));
     }
 }

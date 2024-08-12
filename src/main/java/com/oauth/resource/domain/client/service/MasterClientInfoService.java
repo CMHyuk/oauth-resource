@@ -1,6 +1,6 @@
 package com.oauth.resource.domain.client.service;
 
-import com.oauth.resource.domain.client.dto.MasterClientInfoSaveRequest;
+import com.oauth.resource.domain.client.dto.ClientInfoSaveRequest;
 import com.oauth.resource.domain.client.dto.MasterClientInfoUpdateRequest;
 import com.oauth.resource.domain.client.exception.ClientErrorCode;
 import com.oauth.resource.domain.client.mapper.ClientInfoMapper;
@@ -19,8 +19,8 @@ public class MasterClientInfoService {
     private final ClientInfoRepository clientInfoRepository;
     private final ClientInfoMapper clientInfoMapper;
 
-    public ClientInfo save(String tenantId, MasterClientInfoSaveRequest request) {
-        ClientInfo clientInfo = clientInfoMapper.createMasterClientInfo(tenantId, request);
+    public ClientInfo save(String tenantId, ClientInfoSaveRequest request) {
+        ClientInfo clientInfo = clientInfoMapper.createClientInfo(tenantId, request);
         return clientInfoRepository.save(tenantId, clientInfo);
     }
 

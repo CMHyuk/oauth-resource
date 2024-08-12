@@ -4,10 +4,10 @@ import com.oauth.resource.domain.client.model.ClientInfo;
 
 import java.util.Set;
 
-public record MasterClientInfoResponse(String clientId, String clientSecret, Set<String> redirectUris, Set<String> scopes) {
+public record ClientInfoResponse(String clientId, String clientSecret, Set<String> redirectUris, Set<String> scopes) {
 
-    public static MasterClientInfoResponse from(ClientInfo clientInfo) {
-        return new MasterClientInfoResponse(
+    public static ClientInfoResponse from(ClientInfo clientInfo) {
+        return new ClientInfoResponse(
                 clientInfo.getClientId(),
                 clientInfo.getClientSecret(),
                 clientInfo.getRegisteredRedirectUris(),

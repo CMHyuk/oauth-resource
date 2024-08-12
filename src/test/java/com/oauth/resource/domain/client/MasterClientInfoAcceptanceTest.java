@@ -1,6 +1,6 @@
 package com.oauth.resource.domain.client;
 
-import com.oauth.resource.domain.client.dto.MasterClientInfoSaveRequest;
+import com.oauth.resource.domain.client.dto.ClientInfoSaveRequest;
 import com.oauth.resource.domain.client.dto.MasterClientInfoUpdateRequest;
 import com.oauth.resource.support.AcceptanceTest;
 import io.restassured.RestAssured;
@@ -30,7 +30,7 @@ public class MasterClientInfoAcceptanceTest extends AcceptanceTest {
         @Order(1)
         void 저장한다() {
             // given
-            MasterClientInfoSaveRequest request = new MasterClientInfoSaveRequest("oauth-client-userId",
+            ClientInfoSaveRequest request = new ClientInfoSaveRequest("oauth-client-userId",
                     "client-name",
                     "client-secret",
                     Set.of("http://127.0.0.1:8081"),
