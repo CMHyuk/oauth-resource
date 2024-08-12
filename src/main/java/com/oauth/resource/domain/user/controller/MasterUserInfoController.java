@@ -1,7 +1,7 @@
 package com.oauth.resource.domain.user.controller;
 
-import com.oauth.resource.domain.user.dto.MasterUserInfoResponse;
-import com.oauth.resource.domain.user.dto.MasterUserInfoSaveRequest;
+import com.oauth.resource.domain.user.dto.UserInfoResponse;
+import com.oauth.resource.domain.user.dto.UserInfoSaveRequest;
 import com.oauth.resource.domain.user.dto.MasterUserInfoUpdateRequest;
 import com.oauth.resource.domain.user.model.UserInfo;
 import com.oauth.resource.domain.user.service.MasterUserInfoService;
@@ -19,9 +19,9 @@ public class MasterUserInfoController {
     private final MasterUserInfoService userInfoService;
 
     @PostMapping("/{tenantId}/user/v1/create")
-    public ResponseEntity<ApiResponse> save(@PathVariable String tenantId, @Valid @RequestBody MasterUserInfoSaveRequest request) {
+    public ResponseEntity<ApiResponse> save(@PathVariable String tenantId, @Valid @RequestBody UserInfoSaveRequest request) {
         UserInfo userInfo = userInfoService.save(tenantId, request);
-        MasterUserInfoResponse response = MasterUserInfoResponse.from(userInfo);
+        UserInfoResponse response = UserInfoResponse.from(userInfo);
         return ResponseEntity.ok().body(ApiResponse.success(response));
     }
 

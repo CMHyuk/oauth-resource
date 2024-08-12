@@ -5,7 +5,7 @@ import com.oauth.resource.domain.user.model.UserRole;
 
 import java.util.Set;
 
-public record MasterUserInfoResponse(
+public record UserInfoResponse(
         String username,
         String userId,
         String email,
@@ -13,8 +13,8 @@ public record MasterUserInfoResponse(
         Set<UserRole> userRole
 ) {
 
-    public static MasterUserInfoResponse from(UserInfo userInfo) {
-        return new MasterUserInfoResponse(
+    public static UserInfoResponse from(UserInfo userInfo) {
+        return new UserInfoResponse(
                 userInfo.getUsername(),
                 userInfo.getUserId(),
                 userInfo.getEmail(),

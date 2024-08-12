@@ -1,6 +1,6 @@
 package com.oauth.resource.domain.user;
 
-import com.oauth.resource.domain.user.dto.MasterUserInfoSaveRequest;
+import com.oauth.resource.domain.user.dto.UserInfoSaveRequest;
 import com.oauth.resource.domain.user.dto.MasterUserInfoUpdateRequest;
 import com.oauth.resource.support.AcceptanceTest;
 import io.restassured.RestAssured;
@@ -29,7 +29,7 @@ public class MasterUserInfoAcceptanceTest extends AcceptanceTest {
         @Order(1)
         void 저장한다() {
             // given
-            MasterUserInfoSaveRequest request = new MasterUserInfoSaveRequest(
+            UserInfoSaveRequest request = new UserInfoSaveRequest(
                     "master-name",
                     USER_ID,
                     "master@example.com",
@@ -52,7 +52,7 @@ public class MasterUserInfoAcceptanceTest extends AcceptanceTest {
         @Order(2)
         void 저장할_때_유저_아이디가_이메일_형식에_맞지_않으면_예외가_발생한다() {
             // given
-            MasterUserInfoSaveRequest request = new MasterUserInfoSaveRequest(
+            UserInfoSaveRequest request = new UserInfoSaveRequest(
                     "master-name",
                     "master",
                     "master@example.com",
@@ -75,7 +75,7 @@ public class MasterUserInfoAcceptanceTest extends AcceptanceTest {
         @Order(3)
         void 저장할_때_이메일이__형식에_맞지_않으면_예외가_발생한다() {
             // given
-            MasterUserInfoSaveRequest request = new MasterUserInfoSaveRequest(
+            UserInfoSaveRequest request = new UserInfoSaveRequest(
                     "master-name",
                     "master@email.com",
                     "master",

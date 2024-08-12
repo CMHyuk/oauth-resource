@@ -1,6 +1,6 @@
 package com.oauth.resource.domain.user.service;
 
-import com.oauth.resource.domain.user.dto.MasterUserInfoSaveRequest;
+import com.oauth.resource.domain.user.dto.UserInfoSaveRequest;
 import com.oauth.resource.domain.user.dto.MasterUserInfoUpdateRequest;
 import com.oauth.resource.domain.user.exception.UserErrorCode;
 import com.oauth.resource.domain.user.mapper.UserInfoMapper;
@@ -19,7 +19,7 @@ public class MasterUserInfoService {
     private final UserInfoRepository userInfoRepository;
     private final UserInfoMapper userInfoMapper;
 
-    public UserInfo save(String tenantId, MasterUserInfoSaveRequest request) {
+    public UserInfo save(String tenantId, UserInfoSaveRequest request) {
         UserInfo masterUserInfo = userInfoMapper.createMasterUserInfo(tenantId, request);
         return userInfoRepository.save(tenantId, masterUserInfo);
     }
