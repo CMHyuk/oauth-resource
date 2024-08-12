@@ -48,8 +48,8 @@ public class UserInfo {
         this.password = password;
     }
 
-    public void validateAdmin() {
-        if (!isAdmin()) {
+    public void validateAdminOrMaster() {
+        if (!isAdmin() && !isMaster()) {
             throw BusinessException.from(UserErrorCode.UNAUTHORIZED);
         }
     }

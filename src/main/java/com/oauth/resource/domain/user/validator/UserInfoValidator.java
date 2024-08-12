@@ -18,9 +18,9 @@ public class UserInfoValidator {
                 .validateMaster();
     }
 
-    public void validateAdmin(String userId) {
+    public void validateAdminOrMaster(String userId) {
         userInfoQueryRepository.findByUserId(userId)
                 .orElseThrow(() -> BusinessException.from(UserErrorCode.NOT_FOUND))
-                .validateAdmin();
+                .validateAdminOrMaster();
     }
 }
