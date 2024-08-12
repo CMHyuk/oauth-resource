@@ -17,9 +17,16 @@ public class UserInfoController {
 
     private final UserInfoService userInfoService;
 
-    @PostMapping("/{tenantId}/user/v1/create")
+    @PostMapping("/admin/{tenantId}/user/v1/create")
     public ResponseEntity<ApiResponse> saveAdminUser(LoginUser loginUser, @PathVariable String tenantId, @RequestBody UserInfoSaveRequest request) {
         UserInfo userInfo = userInfoService.saveAdminUser(loginUser, tenantId, request);
+        UserInfoResponse response = UserInfoResponse.from(userInfo);
+        return ResponseEntity.ok(ApiResponse.success(response));
+    }
+
+    @PostMapping("/{tenantId}/user/v1/create")
+    public ResponseEntity<ApiResponse> saveRegularUser(LoginUser loginUser, @PathVariable String tenantId, @RequestBody UserInfoSaveRequest request) {
+        UserInfo userInfo = userInfoService.saveRegularUser(loginUser, tenantId, request);
         UserInfoResponse response = UserInfoResponse.from(userInfo);
         return ResponseEntity.ok(ApiResponse.success(response));
     }

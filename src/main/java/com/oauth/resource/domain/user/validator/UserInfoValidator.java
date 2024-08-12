@@ -17,4 +17,10 @@ public class UserInfoValidator {
                 .orElseThrow(() -> BusinessException.from(UserErrorCode.NOT_FOUND))
                 .validateMaster();
     }
+
+    public void validateAdmin(String userId) {
+        userInfoQueryRepository.findByUserId(userId)
+                .orElseThrow(() -> BusinessException.from(UserErrorCode.NOT_FOUND))
+                .validateAdmin();
+    }
 }

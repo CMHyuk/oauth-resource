@@ -22,4 +22,10 @@ public class UserInfoService {
         UserInfo masterUserInfo = userInfoMapper.createAdminUserInfo(tenantId, request);
         return userInfoRepository.save(tenantId, masterUserInfo);
     }
+
+    public UserInfo saveRegularUser(LoginUser loginUser, String tenantId, UserInfoSaveRequest request) {
+        userInfoValidator.validateAdmin(loginUser.userId());
+        UserInfo masterUserInfo = userInfoMapper.createUserInfo(tenantId, request);
+        return userInfoRepository.save(tenantId, masterUserInfo);
+    }
 }

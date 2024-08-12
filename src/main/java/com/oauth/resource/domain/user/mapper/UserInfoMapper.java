@@ -38,6 +38,17 @@ public class UserInfoMapper {
         );
     }
 
+    public UserInfo createUserInfo(String tenantId, UserInfoSaveRequest request) {
+        return new UserInfo(
+                tenantId,
+                request.username(),
+                request.userId(),
+                request.email(),
+                passwordEncoder.encode(request.password()),
+                Collections.singleton(UserRole.USER)
+        );
+    }
+
     public void update(UserInfo userInfo, MasterUserInfoUpdateRequest request) {
         userInfo.update(
                 request.username(),

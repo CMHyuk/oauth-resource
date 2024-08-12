@@ -48,6 +48,16 @@ public class UserInfo {
         this.password = password;
     }
 
+    public void validateAdmin() {
+        if (!isAdmin()) {
+            throw BusinessException.from(UserErrorCode.UNAUTHORIZED);
+        }
+    }
+
+    private boolean isAdmin() {
+        return this.getRole().contains(UserRole.ADMIN);
+    }
+
     public void validateMaster() {
         if (!isMaster()) {
             throw BusinessException.from(UserErrorCode.UNAUTHORIZED);
