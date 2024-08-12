@@ -1,5 +1,5 @@
 ### 생성
-POST http://localhost:8080/master/0c502f2c-9472-438a-be58-fb3b418b391d/user/v1/create
+POST http://localhost:8080/api/master/0c502f2c-9472-438a-be58-fb3b418b391d/user/v1/create
 Content-Type: application/json
 
 {
@@ -11,12 +11,12 @@ Content-Type: application/json
 }
 
 ### 조회
-GET http://localhost:8080/master/0c502f2c-9472-438a-be58-fb3b418b391d/user/v1/master@email.com
+GET http://localhost:8080/api/master/0c502f2c-9472-438a-be58-fb3b418b391d/user/v1/master@email.com
 Content-Type: application/json
 
 
 ### 업데이트
-POST http://localhost:8080/master/0c502f2c-9472-438a-be58-fb3b418b391d/user/v1/master@email.com/update
+POST http://localhost:8080/api/master/0c502f2c-9472-438a-be58-fb3b418b391d/user/v1/master@email.com/update
 Content-Type: application/json
 
 {
@@ -28,4 +28,4 @@ Content-Type: application/json
 }
 
 ### 삭제
-POST http://localhost:8080/master/0c502f2c-9472-438a-be58-fb3b418b391d/user/v1/update@email.com/delete
+POST http://localhost:8080/api/master/0c502f2c-9472-438a-be58-fb3b418b391d/user/v1/update@email.com/delete
