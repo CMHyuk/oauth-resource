@@ -18,23 +18,12 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class MasterTenantInfoService {
 
-    private static final String ALGORITHM = "RSA";
-
     private final TenantInfoRepository tenantInfoRepository;
 
     public TenantInfo save(MasterTenantInfoSaveRequest request) {
         String tenantId = UUID.randomUUID().toString();
-        KeyPair keyPair = generateKeyPair();
+        KeyPair keyPair = com.oauth.resource.global.util.KeyPairGenerator.generateKeyPair();
         TenantInfo tenantInfo = TenantInfo.createMasterTenant(request.tenantName(), keyPair.getPrivate().getEncoded(), keyPair.getPublic().getEncoded());
         return tenantInfoRepository.save(tenantId, tenantInfo);
-    }
-
-    private KeyPair generateKeyPair() {
-        try {
-            KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(ALGORITHM);
-            return keyPairGenerator.generateKeyPair();
-        } catch (Exception e) {
-            throw BusinessException.from(new InternalServerErrorCode(e.getMessage()));
-        }
     }
 }
