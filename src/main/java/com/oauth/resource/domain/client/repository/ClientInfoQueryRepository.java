@@ -23,4 +23,11 @@ public class ClientInfoQueryRepository {
                 .filter(QueryBuilders.termQuery(CLIENT_ID_KEYWORD, clientId));
         return Optional.ofNullable(clientInfoRepository.find(tenantId, query));
     }
+
+    public Optional<ClientInfo> findByClientId(String clientId) {
+        BoolQueryBuilder query = QueryBuilders.boolQuery()
+                .filter(QueryBuilders.termQuery(CLIENT_ID_KEYWORD, clientId));
+        ClientInfo clientInfo = clientInfoRepository.find(null, query);
+        return Optional.ofNullable(clientInfo);
+    }
 }
