@@ -1,6 +1,5 @@
 package com.oauth.resource.domain.auth;
 
-import com.nimbusds.jwt.proc.DefaultJWTProcessor;
 import com.oauth.resource.domain.tenant.dto.KeyResponse;
 import com.oauth.resource.domain.tenant.service.TenantInfoService;
 import lombok.RequiredArgsConstructor;
@@ -37,10 +36,7 @@ public class SecurityConfig {
                 )
                 .formLogin(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
-                .oauth2ResourceServer(resourceServer ->
-                        resourceServer.jwt(Customizer.withDefaults()
-                        )
-                )
+                .oauth2ResourceServer(resourceServer -> resourceServer.jwt(Customizer.withDefaults()))
                 .authenticationProvider(new CustomAuthenticationProvider(tenantInfoService))
                 .build();
     }

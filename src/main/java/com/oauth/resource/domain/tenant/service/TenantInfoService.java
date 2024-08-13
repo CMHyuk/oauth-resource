@@ -12,7 +12,7 @@ import com.oauth.resource.domain.tenant.repository.TenantInfoRepository;
 import com.oauth.resource.domain.user.exception.UserErrorCode;
 import com.oauth.resource.domain.user.validator.UserInfoValidator;
 import com.oauth.resource.global.exception.BusinessException;
-import com.oauth.resource.global.util.KeyPairGenerator;
+import com.oauth.resource.global.util.KeyPairProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +31,7 @@ public class TenantInfoService {
     public TenantInfo save(LoginUser loginUser, TenantInfoRequest request) {
         userInfoValidator.validateMaster(loginUser.userId());
         String tenantId = UUID.randomUUID().toString();
-        KeyPair keyPair = KeyPairGenerator.generateKeyPair();
+        KeyPair keyPair = KeyPairProvider.generateKeyPair();
         TenantInfo tenantInfo = TenantInfo.createTenant(request.tenantName(), keyPair.getPrivate().getEncoded(), keyPair.getPublic().getEncoded());
         return tenantInfoRepository.save(tenantId, tenantInfo);
     }
