@@ -2,6 +2,7 @@ package com.oauth.resource.domain.auth;
 
 import com.oauth.resource.domain.tenant.dto.KeyResponse;
 import com.oauth.resource.domain.tenant.service.TenantInfoService;
+import com.oauth.resource.domain.token.repository.ElasticSearchTokenQueryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,6 +27,7 @@ import java.security.spec.X509EncodedKeySpec;
 @EnableMethodSecurity
 public class SecurityConfig {
 
+    private final ElasticSearchTokenQueryRepository elasticSearchTokenQueryRepository;
     private final TenantInfoService tenantInfoService;
 
     @Bean
@@ -37,7 +39,7 @@ public class SecurityConfig {
                 .formLogin(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
                 .oauth2ResourceServer(resourceServer -> resourceServer.jwt(Customizer.withDefaults()))
-                .authenticationProvider(new CustomAuthenticationProvider(tenantInfoService))
+                .authenticationProvider(new CustomAuthenticationProvider(elasticSearchTokenQueryRepository, tenantInfoService))
                 .build();
     }
 

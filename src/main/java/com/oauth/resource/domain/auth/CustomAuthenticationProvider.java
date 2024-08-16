@@ -1,10 +1,10 @@
 package com.oauth.resource.domain.auth;
 
-import com.nimbusds.jwt.JWT;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.JWTParser;
-import com.oauth.resource.domain.tenant.dto.KeyResponse;
 import com.oauth.resource.domain.tenant.service.TenantInfoService;
+import com.oauth.resource.domain.token.exception.TokenErrorCode;
+import com.oauth.resource.domain.token.repository.ElasticSearchTokenQueryRepository;
 import com.oauth.resource.global.exception.BusinessException;
 import com.oauth.resource.global.exception.InternalServerErrorCode;
 import org.apache.commons.logging.Log;
@@ -28,17 +28,19 @@ import java.text.ParseException;
 
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 
+    private final ElasticSearchTokenQueryRepository elasticSearchTokenQueryRepository;
     private final TenantInfoService tenantInfoService;
 
     private final Log logger = LogFactory.getLog(this.getClass());
     private Converter<Jwt, ? extends AbstractAuthenticationToken> jwtAuthenticationConverter = new JwtAuthenticationConverter();
 
-    public CustomAuthenticationProvider(TenantInfoService tenantInfoService) {
+    public CustomAuthenticationProvider(ElasticSearchTokenQueryRepository elasticSearchTokenQueryRepository, TenantInfoService tenantInfoService) {
+        this.elasticSearchTokenQueryRepository = elasticSearchTokenQueryRepository;
         this.tenantInfoService = tenantInfoService;
     }
 
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        BearerTokenAuthenticationToken bearer = (BearerTokenAuthenticationToken)authentication;
+        BearerTokenAuthenticationToken bearer = (BearerTokenAuthenticationToken) authentication;
         Jwt jwt = this.getJwt(bearer);
         AbstractAuthenticationToken token = this.jwtAuthenticationConverter.convert(jwt);
         if (token.getDetails() == null) {
@@ -68,11 +70,11 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
     private byte[] getPublicKeyBytes(BearerTokenAuthenticationToken bearer) throws ParseException {
         String token = bearer.getToken();
-        JWT parse = JWTParser.parse(token);
-        JWTClaimsSet jwtClaimsSet = parse.getJWTClaimsSet();
+        elasticSearchTokenQueryRepository.findByAccessToken(token)
+                .orElseThrow(() -> BusinessException.from(TokenErrorCode.NOT_FOUND));
+        JWTClaimsSet jwtClaimsSet = JWTParser.parse(token).getJWTClaimsSet();
         String clientId = jwtClaimsSet.getAudience().get(0);
-        KeyResponse key = tenantInfoService.getKey(clientId);
-        return key.pubKey();
+        return tenantInfoService.getKey(clientId).pubKey();
     }
 
     private RSAPublicKey loadPublicKey(byte[] publicKeyBytes) {
