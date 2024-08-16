@@ -1,15 +1,15 @@
 package com.oauth.resource.domain.token.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.oauth.resource.global.util.References;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.elasticsearch.annotations.Document;
-import org.springframework.data.elasticsearch.annotations.Mapping;
-import org.springframework.data.elasticsearch.annotations.Setting;
+import org.springframework.data.elasticsearch.annotations.*;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -25,6 +25,11 @@ public class ElasticSearchToken implements Serializable {
     private String id;
 
     private String authorizationId;
+
+    @Field(type = FieldType.Date,  format = {}, pattern = References.TIME_FORMAT)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = References.TIME_FORMAT)
+    private LocalDateTime expiresAt;
+
     private String username;
     private String accessToken;
     private String refreshToken;

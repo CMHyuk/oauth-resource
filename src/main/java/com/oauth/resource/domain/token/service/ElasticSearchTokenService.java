@@ -1,5 +1,7 @@
 package com.oauth.resource.domain.token.service;
 
+import com.oauth.resource.domain.authorization.repository.CustomOAuth2AuthorizationQueryRepository;
+import com.oauth.resource.domain.authorization.repository.CustomOAuth2AuthorizationRepository;
 import com.oauth.resource.domain.token.exception.TokenErrorCode;
 import com.oauth.resource.domain.token.model.ElasticSearchToken;
 import com.oauth.resource.domain.token.repository.ElasticSearchTokenQueryRepository;
@@ -15,6 +17,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ElasticSearchTokenService {
 
+    private final CustomOAuth2AuthorizationQueryRepository customOAuth2AuthorizationQueryRepository;
+    private final CustomOAuth2AuthorizationRepository customOAuth2AuthorizationRepository;
     private final ElasticSearchTokenQueryRepository elasticSearchTokenQueryRepository;
     private final ElasticSearchTokenRepository elasticSearchTokenRepository;
     private final UserInfoQueryRepository userInfoQueryRepository;
@@ -24,6 +28,13 @@ public class ElasticSearchTokenService {
                 .orElseThrow(() -> BusinessException.from(TokenErrorCode.NOT_FOUND));
         UserInfo userInfo = userInfoQueryRepository.findByUserId(elasticSearchToken.getUsername())
                 .orElseThrow(() -> BusinessException.from(UserErrorCode.NOT_FOUND));
-        elasticSearchTokenRepository.delete(userInfo.getTenantId(), elasticSearchToken);
+        String tenantId = userInfo.getTenantId();
+        elasticSearchTokenRepository.delete(tenantId, elasticSearchToken);
+        deleteOAuth2Authorization(elasticSearchToken, tenantId);
+    }
+
+    private void deleteOAuth2Authorization(ElasticSearchToken elasticSearchToken, String tenantId) {
+        customOAuth2AuthorizationQueryRepository.findByAuthorizationId(elasticSearchToken.getAuthorizationId())
+                        .ifPresent(authorization -> customOAuth2AuthorizationRepository.delete(tenantId, authorization));
     }
 }
