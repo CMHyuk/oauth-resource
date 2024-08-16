@@ -1,6 +1,5 @@
 package com.oauth.resource.domain.tenant.service;
 
-import com.oauth.resource.domain.auth.LoginUser;
 import com.oauth.resource.domain.client.model.ClientInfo;
 import com.oauth.resource.domain.client.repository.ClientInfoQueryRepository;
 import com.oauth.resource.domain.tenant.dto.KeyResponse;
