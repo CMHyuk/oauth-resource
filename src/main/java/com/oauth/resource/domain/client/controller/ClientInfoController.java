@@ -1,6 +1,6 @@
 package com.oauth.resource.domain.client.controller;
 
-import com.oauth.resource.domain.auth.LoginUser;
+import com.oauth.resource.domain.auth.RequiredMaster;
 import com.oauth.resource.domain.client.dto.ClientInfoResponse;
 import com.oauth.resource.domain.client.dto.ClientInfoSaveRequest;
 import com.oauth.resource.domain.client.model.ClientInfo;
@@ -18,8 +18,9 @@ public class ClientInfoController {
     private final ClientInfoService clientInfoService;
 
     @PostMapping("/{tenantId}/client/v1/create")
-    public ResponseEntity<ApiResponse> save(LoginUser loginUser, @PathVariable String tenantId, @RequestBody ClientInfoSaveRequest request) {
-        ClientInfo clientInfo = clientInfoService.save(loginUser, tenantId, request);
+    @RequiredMaster
+    public ResponseEntity<ApiResponse> save(@PathVariable String tenantId, @RequestBody ClientInfoSaveRequest request) {
+        ClientInfo clientInfo = clientInfoService.save(tenantId, request);
         return ResponseEntity.ok(ApiResponse.success(ClientInfoResponse.from(clientInfo)));
     }
 }

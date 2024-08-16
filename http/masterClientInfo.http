@@ -3,9 +3,9 @@ POST http://localhost:8080/api/master/pGijL5EB2Nf0mCt0JTar/client/v1/create
 Content-Type: application/json
 
 {
-  "clientId": "oauth-client-id",
-  "clientName": "masterClient",
-  "clientSecret": "oauth-client-secret",
+  "clientId": "oauth-client-id-test",
+  "clientName": "masterClient-test",
+  "clientSecret": "oauth-client-secret-test",
   "redirectUris": [
     "http://127.0.0.1:8081"
   ],

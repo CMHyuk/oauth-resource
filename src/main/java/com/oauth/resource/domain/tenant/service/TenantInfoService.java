@@ -10,7 +10,6 @@ import com.oauth.resource.domain.tenant.model.TenantInfo;
 import com.oauth.resource.domain.tenant.repository.TenantInfoQueryRepository;
 import com.oauth.resource.domain.tenant.repository.TenantInfoRepository;
 import com.oauth.resource.domain.user.exception.UserErrorCode;
-import com.oauth.resource.domain.user.validator.UserInfoValidator;
 import com.oauth.resource.global.exception.BusinessException;
 import com.oauth.resource.global.util.KeyPairProvider;
 import lombok.RequiredArgsConstructor;
@@ -23,13 +22,11 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class TenantInfoService {
 
-    private final UserInfoValidator userInfoValidator;
     private final TenantInfoRepository tenantInfoRepository;
     private final ClientInfoQueryRepository clientInfoQueryRepository;
     private final TenantInfoQueryRepository tenantInfoQueryRepository;
 
-    public TenantInfo save(LoginUser loginUser, TenantInfoRequest request) {
-        userInfoValidator.validateMaster(loginUser.userId());
+    public TenantInfo save(TenantInfoRequest request) {
         String tenantId = UUID.randomUUID().toString();
         KeyPair keyPair = KeyPairProvider.generateKeyPair();
         TenantInfo tenantInfo = TenantInfo.createTenant(request.tenantName(), keyPair.getPrivate().getEncoded(), keyPair.getPublic().getEncoded());
