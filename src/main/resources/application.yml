@@ -11,3 +11,6 @@ elasticsearch:
   connection-request-timeout-seconds: ${ELASTIC_CONNECTION_REQUEST_TIMEOUT_SEC:30}
   keep-alive-strategy-time-minutes: ${ELASTIC_KEEP_ALIVE_STRATEGY_TIME_MIN:5}
   scheme: http
+
+oauth:
+  client-id: oauth-client-id

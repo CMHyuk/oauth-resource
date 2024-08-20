@@ -4,6 +4,7 @@ import com.oauth.resource.domain.tenant.dto.KeyResponse;
 import com.oauth.resource.domain.tenant.service.TenantInfoService;
 import com.oauth.resource.domain.token.repository.ElasticSearchTokenQueryRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -26,6 +27,9 @@ import java.security.spec.X509EncodedKeySpec;
 @RequiredArgsConstructor
 @EnableMethodSecurity
 public class SecurityConfig {
+
+    @Value("${oauth.client-id}")
+    private String clientId;
 
     private final ElasticSearchTokenQueryRepository elasticSearchTokenQueryRepository;
     private final TenantInfoService tenantInfoService;
@@ -50,7 +54,7 @@ public class SecurityConfig {
 
     @Bean
     public JwtDecoder jwtDecoder() throws Exception {
-        KeyResponse key = tenantInfoService.getKey("oauth-client-id");
+        KeyResponse key = tenantInfoService.getKey(clientId);
         RSAPublicKey rsaPublicKey = loadPublicKey(key.pubKey());
         return NimbusJwtDecoder.withPublicKey(rsaPublicKey).build();
     }
