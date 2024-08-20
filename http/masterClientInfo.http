@@ -1,5 +1,5 @@
 ### 생성
-POST http://localhost:8080/api/master/pGijL5EB2Nf0mCt0JTar/client/v1/create
+POST http://localhost:8080/master/pGijL5EB2Nf0mCt0JTar/client/v1/create
 Content-Type: application/json
 
 {
