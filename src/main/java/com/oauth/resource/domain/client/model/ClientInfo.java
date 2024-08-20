@@ -1,17 +1,15 @@
 package com.oauth.resource.domain.client.model;
 
+import com.oauth.resource.global.domain.BaseEntity;
 import com.oauth.resource.global.util.References;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Setting;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -20,12 +18,9 @@ import java.util.Set;
 @Document(indexName = References.ELASTIC_INDEX_PREFIX_OAUTH_CLIENT + "*", createIndex = false)
 @Setting(settingPath = "lower_case_normalizer_setting.json")
 @SuppressWarnings("squid:S1948")
-public class ClientInfo {
+public class ClientInfo extends BaseEntity {
 
     private static final Integer VALIDITY_SECONDS = 300;
-
-    @Id
-    private String id;
 
     private String tenantId;
     private String clientName;

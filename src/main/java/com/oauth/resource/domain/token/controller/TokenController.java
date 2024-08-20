@@ -20,7 +20,7 @@ public class TokenController {
 
     @DeleteMapping("/v1/access-token")
     @RequiredMaster
-    public ResponseEntity<ApiResponse<Void>> deleteAccessToken(@RequestBody AccessTokenDeleteRequest request) {
+    public ResponseEntity<ApiResponse> deleteAccessToken(@RequestBody AccessTokenDeleteRequest request) {
         elasticSearchTokenService.delete(request.accessToken());
         return ResponseEntity.ok(ApiResponse.success());
     }

@@ -1,9 +1,9 @@
 package com.oauth.resource.domain.tenant.model;
 
+import com.oauth.resource.global.domain.BaseEntity;
 import com.oauth.resource.global.exception.BusinessException;
 import com.oauth.resource.global.util.References;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.elasticsearch.annotations.Document;
@@ -17,12 +17,9 @@ import static com.oauth.resource.domain.tenant.exception.TenantErrorCode.INVALID
 @Document(indexName = References.ELASTIC_INDEX_PREFIX_OAUTH_COMPANY + "*", createIndex = false)
 @Setting(settingPath = "lower_case_normalizer_setting.json")
 @SuppressWarnings("squid:S1948")
-public class TenantInfo {
+public class TenantInfo extends BaseEntity {
 
     private static final String MASTER_TENANT = "master";
-
-    @Id
-    private String id;
 
     private String tenantName;
     private byte[] tenantRSAPrivateKey;
