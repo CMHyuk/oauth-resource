@@ -14,3 +14,7 @@ elasticsearch:
 
 oauth:
   client-id: oauth-client-id
+
+server:
+  servlet:
+    context-path: /resource
