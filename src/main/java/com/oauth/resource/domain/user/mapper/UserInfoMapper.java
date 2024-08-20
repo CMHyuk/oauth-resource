@@ -52,7 +52,6 @@ public class UserInfoMapper {
     public void update(UserInfo userInfo, MasterUserInfoUpdateRequest request) {
         userInfo.update(
                 request.username(),
-                request.userId(),
                 request.email(),
                 passwordEncoder.encode(request.password())
         );

@@ -44,10 +44,8 @@ public class ClientInfo extends BaseEntity {
         this.accessTokenValiditySeconds = VALIDITY_SECONDS;
     }
 
-    public void update(String tenantId, String clientName, String clientId, String clientSecret, Set<String> registeredRedirectUris, Integer accessTokenValiditySeconds, Set<String> scopes) {
-        this.tenantId = tenantId;
+    public void update(String clientName, String clientSecret, Set<String> registeredRedirectUris, Integer accessTokenValiditySeconds, Set<String> scopes) {
         this.clientName = clientName;
-        this.clientId = clientId;
         this.clientSecret = clientSecret;
         this.registeredRedirectUris = registeredRedirectUris;
         this.accessTokenValiditySeconds = accessTokenValiditySeconds;

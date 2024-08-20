@@ -38,9 +38,8 @@ public class UserInfo extends BaseEntity {
         this.role = role;
     }
 
-    public void update(String username, String userId, String email, String password) {
+    public void update(String username, String email, String password) {
         this.username = username;
-        this.userId = userId;
         this.email = email;
         this.password = password;
     }
