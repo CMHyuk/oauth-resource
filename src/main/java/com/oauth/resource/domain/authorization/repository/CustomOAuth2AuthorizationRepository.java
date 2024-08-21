@@ -1,8 +1,29 @@
 package com.oauth.resource.domain.authorization.repository;
 
-
 import com.oauth.resource.domain.authorization.model.CustomOAuth2Authorization;
-import com.oauth.resource.elasticsearch.base.CustomAwareRepository;
+import lombok.RequiredArgsConstructor;
+import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.springframework.stereotype.Repository;
 
-public interface CustomOAuth2AuthorizationRepository extends CustomAwareRepository<CustomOAuth2Authorization, String> {
+import java.util.Optional;
+
+@Repository
+@RequiredArgsConstructor
+public class CustomOAuth2AuthorizationRepository {
+
+    private static final String AUTHORIZATION_KEYWORD = "authorizationId.keyword";
+
+    private final CustomOAuth2AuthorizationBaseRepository oauthAuthorizationRepository;
+
+    public Optional<CustomOAuth2Authorization> findByAuthorizationId(String authorizationId) {
+        BoolQueryBuilder query = QueryBuilders.boolQuery()
+                .filter(QueryBuilders.termQuery(AUTHORIZATION_KEYWORD, authorizationId));
+        CustomOAuth2Authorization customOAuth2Authorization = oauthAuthorizationRepository.find(null, query);
+        return Optional.ofNullable(customOAuth2Authorization);
+    }
+
+    public void delete(String tenantId, CustomOAuth2Authorization customOAuth2Authorization) {
+        oauthAuthorizationRepository.delete(tenantId, customOAuth2Authorization);
+    }
 }

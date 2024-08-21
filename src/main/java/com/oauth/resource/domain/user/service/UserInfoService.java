@@ -3,6 +3,7 @@ package com.oauth.resource.domain.user.service;
 import com.oauth.resource.domain.user.dto.UserInfoSaveRequest;
 import com.oauth.resource.domain.user.mapper.UserInfoMapper;
 import com.oauth.resource.domain.user.model.UserInfo;
+import com.oauth.resource.domain.user.repository.UserInfoBaseRepository;
 import com.oauth.resource.domain.user.repository.UserInfoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

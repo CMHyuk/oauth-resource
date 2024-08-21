@@ -25,6 +25,13 @@ public class MasterUserInfoController {
         return ResponseEntity.ok().body(ApiResponse.success(response));
     }
 
+    @GetMapping("/{tenantId}/user/v1/{userId}")
+    public ResponseEntity<ApiResponse> find(@PathVariable String tenantId, @PathVariable String userId) {
+        UserInfo userInfo = userInfoService.find(tenantId, userId);
+        UserInfoResponse response = UserInfoResponse.from(userInfo);
+        return ResponseEntity.ok().body(ApiResponse.success(response));
+    }
+
     @PostMapping("/{tenantId}/user/v1/{userId}/update")
     public ResponseEntity<ApiResponse> update(@PathVariable String tenantId, @PathVariable String userId, @Valid @RequestBody MasterUserInfoUpdateRequest request) {
         userInfoService.update(tenantId, userId, request);

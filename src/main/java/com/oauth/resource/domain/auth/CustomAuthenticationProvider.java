@@ -4,7 +4,7 @@ import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.JWTParser;
 import com.oauth.resource.domain.tenant.service.TenantInfoService;
 import com.oauth.resource.domain.token.exception.TokenErrorCode;
-import com.oauth.resource.domain.token.repository.ElasticSearchTokenQueryRepository;
+import com.oauth.resource.domain.token.repository.ElasticSearchTokenRepository;
 import com.oauth.resource.global.exception.BusinessException;
 import com.oauth.resource.global.exception.InternalServerErrorCode;
 import org.apache.commons.logging.Log;
@@ -28,14 +28,14 @@ import java.text.ParseException;
 
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 
-    private final ElasticSearchTokenQueryRepository elasticSearchTokenQueryRepository;
+    private final ElasticSearchTokenRepository elasticSearchTokenRepository;
     private final TenantInfoService tenantInfoService;
 
     private final Log logger = LogFactory.getLog(this.getClass());
     private Converter<Jwt, ? extends AbstractAuthenticationToken> jwtAuthenticationConverter = new JwtAuthenticationConverter();
 
-    public CustomAuthenticationProvider(ElasticSearchTokenQueryRepository elasticSearchTokenQueryRepository, TenantInfoService tenantInfoService) {
-        this.elasticSearchTokenQueryRepository = elasticSearchTokenQueryRepository;
+    public CustomAuthenticationProvider(ElasticSearchTokenRepository elasticSearchTokenRepository, TenantInfoService tenantInfoService) {
+        this.elasticSearchTokenRepository = elasticSearchTokenRepository;
         this.tenantInfoService = tenantInfoService;
     }
 
@@ -70,7 +70,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
     private byte[] getPublicKeyBytes(BearerTokenAuthenticationToken bearer) throws ParseException {
         String token = bearer.getToken();
-        elasticSearchTokenQueryRepository.findByAccessToken(token)
+        elasticSearchTokenRepository.findByAccessToken(token)
                 .orElseThrow(() -> BusinessException.from(TokenErrorCode.NOT_FOUND));
         JWTClaimsSet jwtClaimsSet = JWTParser.parse(token).getJWTClaimsSet();
         String clientId = jwtClaimsSet.getAudience().get(0);

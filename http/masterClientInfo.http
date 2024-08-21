@@ -21,9 +21,8 @@ POST http://localhost:8080/resource/api/master/pGijL5EB2Nf0mCt0JTar/client/v1/oa
 Content-Type: application/json
 
 {
-  "clientId": "example-client-userId",
   "clientName": "Example Client",
-  "clientSecret": "example-client-secret",
+  "clientSecret": "example-client-secret-test",
   "registeredRedirectUri": [
     "https://example.com/redirect"
   ],
