@@ -1,9 +1,9 @@
 ### 생성
-POST http://localhost:8080/api/master/0c502f2c-9472-438a-be58-fb3b418b391d/user/v1/create
+POST http://localhost:8080/resource/api/master/0c502f2c-9472-438a-be58-fb3b418b391d/user/v1/create
 Content-Type: application/json
 
 {
-  "username": "master-user",
+  "username": "master-user-test",
   "userId": "master@email.com",
   "email": "master@example.com",
   "password": "password123!",
@@ -11,12 +11,12 @@ Content-Type: application/json
 }
 
 ### 조회
-GET http://localhost:8080/api/master/0c502f2c-9472-438a-be58-fb3b418b391d/user/v1/master@email.com
+GET http://localhost:8080/resource/api/master/0c502f2c-9472-438a-be58-fb3b418b391d/user/v1/master@email.com
 Content-Type: application/json
 
 
 ### 업데이트
-POST http://localhost:8080/api/master/0c502f2c-9472-438a-be58-fb3b418b391d/user/v1/master@email.com/update
+POST http://localhost:8080/resource/api/master/0c502f2c-9472-438a-be58-fb3b418b391d/user/v1/master@email.com/update
 Content-Type: application/json
 
 {
