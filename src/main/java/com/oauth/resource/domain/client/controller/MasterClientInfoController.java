@@ -35,4 +35,11 @@ public class MasterClientInfoController {
         masterClientInfoService.delete(tenantId, clientId);
         return ResponseEntity.ok().body(ApiResponse.success());
     }
+
+    @GetMapping("/{tenantId}/client/v1/{clientId}")
+    public ResponseEntity<ApiResponse> find(@PathVariable String tenantId, @PathVariable String clientId) {
+        ClientInfo clientInfo = masterClientInfoService.find(tenantId, clientId);
+        ClientInfoResponse response = ClientInfoResponse.from(clientInfo);
+        return ResponseEntity.ok().body(ApiResponse.success(response));
+    }
 }

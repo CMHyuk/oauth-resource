@@ -5,8 +5,8 @@ import com.oauth.resource.domain.client.dto.MasterClientInfoUpdateRequest;
 import com.oauth.resource.domain.client.exception.ClientErrorCode;
 import com.oauth.resource.domain.client.mapper.ClientInfoMapper;
 import com.oauth.resource.domain.client.model.ClientInfo;
-import com.oauth.resource.domain.client.repository.ClientInfoQueryRepository;
 import com.oauth.resource.domain.client.repository.ClientInfoRepository;
+import com.oauth.resource.domain.client.repository.ClientInfoBaseRepository;
 import com.oauth.resource.global.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class MasterClientInfoService {
 
-    private final ClientInfoQueryRepository clientInfoQueryRepository;
     private final ClientInfoRepository clientInfoRepository;
     private final ClientInfoMapper clientInfoMapper;
 
@@ -24,12 +23,16 @@ public class MasterClientInfoService {
         return clientInfoRepository.save(tenantId, clientInfo);
     }
 
+    public ClientInfo find(String tenantId, String clientId) {
+        return clientInfoRepository.find(tenantId, clientId)
+                .orElseThrow(() -> BusinessException.from(ClientErrorCode.NOT_FOUND));
+    }
+
     public void update(String tenantId, String clientId, MasterClientInfoUpdateRequest request) {
         ClientInfo clientInfo = getClientInfo(tenantId, clientId);
         clientInfoMapper.update(clientInfo, request);
         clientInfoRepository.save(tenantId, clientInfo);
     }
-
 
     public void delete(String tenantId, String clientId) {
         ClientInfo clientInfo = getClientInfo(tenantId, clientId);
@@ -37,7 +40,7 @@ public class MasterClientInfoService {
     }
 
     private ClientInfo getClientInfo(String tenantId, String clientId) {
-        return clientInfoQueryRepository.find(tenantId, clientId)
+        return clientInfoRepository.find(tenantId, clientId)
                 .orElseThrow(() -> BusinessException.from(ClientErrorCode.NOT_FOUND));
     }
 }

@@ -1,13 +1,12 @@
 package com.oauth.resource.domain.tenant.service;
 
 import com.oauth.resource.domain.client.model.ClientInfo;
-import com.oauth.resource.domain.client.repository.ClientInfoQueryRepository;
+import com.oauth.resource.domain.client.repository.ClientInfoRepository;
 import com.oauth.resource.domain.tenant.dto.KeyResponse;
 import com.oauth.resource.domain.tenant.dto.TenantInfoRequest;
 import com.oauth.resource.domain.tenant.exception.TenantErrorCode;
 import com.oauth.resource.domain.tenant.model.TenantInfo;
 import com.oauth.resource.domain.tenant.repository.TenantInfoRepository;
-import com.oauth.resource.domain.tenant.repository.TenantInfoBaseRepository;
 import com.oauth.resource.domain.user.exception.UserErrorCode;
 import com.oauth.resource.global.exception.BusinessException;
 import com.oauth.resource.global.util.KeyPairProvider;
@@ -21,7 +20,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class TenantInfoService {
 
-    private final ClientInfoQueryRepository clientInfoQueryRepository;
+    private final ClientInfoRepository clientInfoRepository;
     private final TenantInfoRepository tenantInfoRepository;
 
     public TenantInfo save(TenantInfoRequest request) {
@@ -32,7 +31,7 @@ public class TenantInfoService {
     }
 
     public KeyResponse getKey(String clientId) {
-        ClientInfo clientInfo = clientInfoQueryRepository.findByClientId(clientId)
+        ClientInfo clientInfo = clientInfoRepository.findByClientId(clientId)
                 .orElseThrow(() -> BusinessException.from(UserErrorCode.NOT_FOUND));
         TenantInfo tenantInfo = tenantInfoRepository.findByTenantId(clientInfo.getTenantId())
                 .orElseThrow(() -> BusinessException.from(TenantErrorCode.NOT_FOUND));
