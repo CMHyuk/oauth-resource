@@ -1,30 +1,25 @@
 package com.oauth.resource.domain.client.mapper;
 
-import com.oauth.resource.domain.client.dto.MasterClientInfoSaveRequest;
+import com.oauth.resource.domain.client.dto.ClientInfoSaveRequest;
 import com.oauth.resource.domain.client.dto.MasterClientInfoUpdateRequest;
 import com.oauth.resource.domain.client.model.ClientInfo;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class ClientInfoMapper {
 
-    @Value("${client.id}")
-    private String clientId;
+    private final PasswordEncoder passwordEncoder;
 
-    @Value("${client.secret}")
-    private String clientSecret;
-
-    @Value("${client.redirectUrl}")
-    private String redirectUrl;
-
-    public ClientInfo createMasterClientInfo(String tenantId, MasterClientInfoSaveRequest request) {
+    public ClientInfo createClientInfo(String tenantId, ClientInfoSaveRequest request) {
         return new ClientInfo(
                 tenantId,
                 request.clientName(),
-                clientId,
-                clientSecret,
-                redirectUrl,
+                request.clientId(),
+                passwordEncoder.encode(request.clientSecret()),
+                request.redirectUris(),
                 request.scopes()
         );
     }
@@ -32,9 +27,8 @@ public class ClientInfoMapper {
     public void update(ClientInfo clientInfo, MasterClientInfoUpdateRequest request) {
         clientInfo.update(
                 request.clientName(),
-                request.clientId(),
                 request.clientSecret(),
-                request.registeredRedirectUri(),
+                request.redirectUris(),
                 request.accessTokenValiditySeconds(),
                 request.scopes()
         );

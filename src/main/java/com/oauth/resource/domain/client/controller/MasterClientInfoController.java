@@ -1,7 +1,7 @@
 package com.oauth.resource.domain.client.controller;
 
-import com.oauth.resource.domain.client.dto.MasterClientInfoResponse;
-import com.oauth.resource.domain.client.dto.MasterClientInfoSaveRequest;
+import com.oauth.resource.domain.client.dto.ClientInfoResponse;
+import com.oauth.resource.domain.client.dto.ClientInfoSaveRequest;
 import com.oauth.resource.domain.client.dto.MasterClientInfoUpdateRequest;
 import com.oauth.resource.domain.client.model.ClientInfo;
 import com.oauth.resource.domain.client.service.MasterClientInfoService;
@@ -11,16 +11,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/master")
+@RequestMapping("/api/master")
 @RequiredArgsConstructor
 public class MasterClientInfoController {
 
     private final MasterClientInfoService masterClientInfoService;
 
     @PostMapping("/{tenantId}/client/v1/create")
-    public ResponseEntity<ApiResponse> save(@PathVariable String tenantId, @RequestBody MasterClientInfoSaveRequest request) {
+    public ResponseEntity<ApiResponse> save(@PathVariable String tenantId, @RequestBody ClientInfoSaveRequest request) {
         ClientInfo clientInfo = masterClientInfoService.save(tenantId, request);
-        MasterClientInfoResponse response = MasterClientInfoResponse.from(clientInfo);
+        ClientInfoResponse response = ClientInfoResponse.from(clientInfo);
         return ResponseEntity.ok().body(ApiResponse.success(response));
     }
 
@@ -34,5 +34,12 @@ public class MasterClientInfoController {
     public ResponseEntity<ApiResponse> delete(@PathVariable String tenantId, @PathVariable String clientId) {
         masterClientInfoService.delete(tenantId, clientId);
         return ResponseEntity.ok().body(ApiResponse.success());
+    }
+
+    @GetMapping("/{tenantId}/client/v1/{clientId}")
+    public ResponseEntity<ApiResponse> find(@PathVariable String tenantId, @PathVariable String clientId) {
+        ClientInfo clientInfo = masterClientInfoService.find(tenantId, clientId);
+        ClientInfoResponse response = ClientInfoResponse.from(clientInfo);
+        return ResponseEntity.ok().body(ApiResponse.success(response));
     }
 }

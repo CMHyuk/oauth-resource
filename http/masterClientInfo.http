@@ -1,31 +1,42 @@
 ### 생성
-POST http://localhost:8080/master/0c502f2c-9472-438a-be58-fb3b418b391d/client/v1/create
+POST http://localhost:8080/resource/api/master/pGijL5EB2Nf0mCt0JTar/client/v1/create
 Content-Type: application/json
 
 {
-  "clientName": "masterClient",
+  "clientId": "oauth-client-id-test",
+  "clientName": "masterClient-test",
+  "clientSecret": "oauth-client-secret-test",
+  "redirectUris": [
+    "http://127.0.0.1:8081"
+  ],
   "scopes": [
     "read",
     "write"
   ]
 }
 
+
 ### 수정
-POST http://localhost:8080/master/0c502f2c-9472-438a-be58-fb3b418b391d/client/v1/oauth-client-id/update
+POST http://localhost:8080/resource/api/master/pGijL5EB2Nf0mCt0JTar/client/v1/oauth-client-id-test/update
 Content-Type: application/json
 
 {
   "clientName": "Example Client",
-  "clientId": "example-client-id",
-  "clientSecret": "example-client-secret",
-  "registeredRedirectUri": "https://example.com/redirect",
+  "clientSecret": "example-client-secret-test",
+  "registeredRedirectUri": [
+    "https://example.com/redirect"
+  ],
   "accessTokenValiditySeconds": 3600,
-  "scopes": ["read", "write", "delete"]
+  "scopes": [
+    "read",
+    "write",
+    "delete"
+  ]
 }
 
 ### 조회
-GET http://localhost:8080/master/0c502f2c-9472-438a-be58-fb3b418b391d/client/v1/oauth-client-id
+GET http://localhost:8080/resource/api/master/pGijL5EB2Nf0mCt0JTar/client/v1/oauth-client-id
 Content-Type: application/json
 
 ### 삭제
-POST http://localhost:8080/master/0c502f2c-9472-438a-be58-fb3b418b391d/client/v1/oauth-client-id/delete
+POST http://localhost:8080/resource/api/master/pGijL5EB2Nf0mCt0JTar/client/v1/oauth-client-id-test/delete

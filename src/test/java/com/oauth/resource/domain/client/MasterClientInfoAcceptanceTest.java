@@ -1,6 +1,6 @@
 package com.oauth.resource.domain.client;
 
-import com.oauth.resource.domain.client.dto.MasterClientInfoSaveRequest;
+import com.oauth.resource.domain.client.dto.ClientInfoSaveRequest;
 import com.oauth.resource.domain.client.dto.MasterClientInfoUpdateRequest;
 import com.oauth.resource.support.AcceptanceTest;
 import io.restassured.RestAssured;
@@ -10,7 +10,7 @@ import org.junit.jupiter.api.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -18,8 +18,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class MasterClientInfoAcceptanceTest extends AcceptanceTest {
 
     private static final String TENANT_ID = UUID.randomUUID().toString();
-    private static final String CLIENT_ID = "oauth-client-id";
-    private static final String UPDATED_CLIENT_ID = "update-oauth-id";
+    private static final String CLIENT_ID = "oauth-client-userId";
+    private static final String UPDATED_CLIENT_ID = "update-oauth-userId";
 
     @Nested
     @DisplayName("마스터 클라이언트를")
@@ -30,7 +30,11 @@ public class MasterClientInfoAcceptanceTest extends AcceptanceTest {
         @Order(1)
         void 저장한다() {
             // given
-            MasterClientInfoSaveRequest request = new MasterClientInfoSaveRequest("test-client", List.of("read", "write"));
+            ClientInfoSaveRequest request = new ClientInfoSaveRequest("oauth-client-userId",
+                    "client-name",
+                    "client-secret",
+                    Set.of("http://127.0.0.1:8081"),
+                    Set.of("read", "write"));
 
             // when
             ExtractableResponse<Response> response = RestAssured.given().log().all()
@@ -76,12 +80,12 @@ public class MasterClientInfoAcceptanceTest extends AcceptanceTest {
         void 수정한다() {
             // given
             MasterClientInfoUpdateRequest request = new MasterClientInfoUpdateRequest(
-                    "updateName",
                     UPDATED_CLIENT_ID,
+                    "updateName",
                     "updateSecret",
-                    "updateRedirectUri",
-                    200,
-                    List.of("read", "delete")
+                    Set.of("http://127.0.0.1:8081"),
+                    Set.of("read", "delete"),
+                    200
             );
 
             // when
