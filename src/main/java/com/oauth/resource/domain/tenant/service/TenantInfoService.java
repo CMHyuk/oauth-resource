@@ -6,8 +6,8 @@ import com.oauth.resource.domain.tenant.dto.KeyResponse;
 import com.oauth.resource.domain.tenant.dto.TenantInfoRequest;
 import com.oauth.resource.domain.tenant.exception.TenantErrorCode;
 import com.oauth.resource.domain.tenant.model.TenantInfo;
-import com.oauth.resource.domain.tenant.repository.TenantInfoQueryRepository;
 import com.oauth.resource.domain.tenant.repository.TenantInfoRepository;
+import com.oauth.resource.domain.tenant.repository.TenantInfoBaseRepository;
 import com.oauth.resource.domain.user.exception.UserErrorCode;
 import com.oauth.resource.global.exception.BusinessException;
 import com.oauth.resource.global.util.KeyPairProvider;
@@ -21,9 +21,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class TenantInfoService {
 
-    private final TenantInfoRepository tenantInfoRepository;
     private final ClientInfoQueryRepository clientInfoQueryRepository;
-    private final TenantInfoQueryRepository tenantInfoQueryRepository;
+    private final TenantInfoRepository tenantInfoRepository;
 
     public TenantInfo save(TenantInfoRequest request) {
         String tenantId = UUID.randomUUID().toString();
@@ -35,8 +34,7 @@ public class TenantInfoService {
     public KeyResponse getKey(String clientId) {
         ClientInfo clientInfo = clientInfoQueryRepository.findByClientId(clientId)
                 .orElseThrow(() -> BusinessException.from(UserErrorCode.NOT_FOUND));
-
-        TenantInfo tenantInfo = tenantInfoQueryRepository.findByTenantId(clientInfo.getTenantId())
+        TenantInfo tenantInfo = tenantInfoRepository.findByTenantId(clientInfo.getTenantId())
                 .orElseThrow(() -> BusinessException.from(TenantErrorCode.NOT_FOUND));
         return new KeyResponse(tenantInfo.getTenantRSAPublicKey(), tenantInfo.getTenantRSAPrivateKey());
     }

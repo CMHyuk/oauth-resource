@@ -1,5 +1,5 @@
 ### 생성
-POST http://localhost:8080/resource/master/tenant/v1/create
+POST http://localhost:8080/resource/api/master/tenant/v1/create
 Content-Type: application/json
 
 {
@@ -7,7 +7,7 @@ Content-Type: application/json
 }
 
 ### 조회
-POST http://localhost:8080/resource/master/tenant/v1/search
+POST http://localhost:8080/resource/api/master/tenant/v1/search
 Content-Type: application/json
 
 {
