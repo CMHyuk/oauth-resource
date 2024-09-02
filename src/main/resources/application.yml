@@ -12,6 +12,9 @@ elasticsearch:
   keep-alive-strategy-time-minutes: ${ELASTIC_KEEP_ALIVE_STRATEGY_TIME_MIN:5}
   scheme: http
 
+app:
+  version: @project.version@
+
 oauth:
   client-id: oauth-client-id
 
