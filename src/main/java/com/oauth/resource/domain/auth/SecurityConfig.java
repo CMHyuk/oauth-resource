@@ -37,7 +37,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         return http.authorizeHttpRequests(
-                        request -> request.requestMatchers("/api/master/**", "/api/version").permitAll()
+                        request -> request.requestMatchers("/api/master/**", "/api/version", "/api/name").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .formLogin(AbstractHttpConfigurer::disable)
