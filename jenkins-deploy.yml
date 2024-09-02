@@ -51,7 +51,7 @@ spec:
               cpu: 1000m
               memory: 2Gi
           ports:
-            - containerPort: 9000
+            - containerPort: 8080
           envFrom:
             - configMapRef:
                 name: resource-minhyeok-config
