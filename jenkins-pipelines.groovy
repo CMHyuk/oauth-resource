@@ -27,6 +27,10 @@ podTemplate(
                     MAVEN_BUILD_DCHECK_OPT = "-Ddependency-check.skip=true"
                     MAVEN_BUILD_SKIP_JUNIT_TEST = "-Dmaven.test.skip=false -Dspring.profiles.active=local"
                     echo "Start BUILD ${PROJECT_NAME}:${VERSION} Build_Opt [${MAVEN_BUILD_OPT} ${MAVEN_BUILD_DCHECK_OPT} ${MAVEN_BUILD_SKIP_JUNIT_TEST}]"
+
+                    container('maven') {
+                        sh "mvn ${MAVEN_BUILD_OPT} ${MAVEN_BUILD_DCHECK_OPT} ${MAVEN_BUILD_SKIP_JUNIT_TEST}"
+                    }
                 }
 
                 stage('Docker Build & Push') {
