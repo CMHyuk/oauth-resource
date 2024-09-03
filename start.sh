@@ -7,4 +7,4 @@ else
     JAVA_OPTS="-XX:-UseContainerSupport $JAVA_OPTS"
 fi
 
-exec java $JAVA_OPTS -jar /app/cloud-idgp-resource.jar
+exec java $JAVA_OPTS -jar /app/ojt-minhyeok-resource.jar
