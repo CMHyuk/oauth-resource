@@ -20,7 +20,7 @@ public class TenantInfoController {
 
     private final TenantInfoService tenantInfoService;
 
-    @PostMapping("/v1/create")
+    @PostMapping("/tenant/v1/create")
     @RequiredMaster
     public ResponseEntity<ApiResponse> save(@RequestBody TenantInfoRequest request) {
         TenantInfo tenantInfo = tenantInfoService.save(request);
