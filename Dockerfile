@@ -3,5 +3,7 @@ FROM amazoncorretto:17-alpine-jdk
 WORKDIR /app
 
 COPY /target/*.jar /app/ojt-minhyeok-resource.jar
+COPY start.sh /app/start.sh
+RUN chmod +x /app/start.sh
 
-CMD ["java", "-jar", "/app/ojt-minhyeok-resource.jar"]
+ENTRYPOINT ["/app/start.sh"]
