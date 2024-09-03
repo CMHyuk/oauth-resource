@@ -1,10 +1,9 @@
 package com.oauth.resource.domain.auth;
 
-import com.oauth.resource.domain.tenant.dto.KeyResponse;
+import com.nimbusds.jose.jwk.RSAKey;
 import com.oauth.resource.domain.tenant.service.TenantInfoService;
 import com.oauth.resource.domain.token.repository.ElasticSearchTokenRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -18,18 +17,18 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import java.security.KeyFactory;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.NoSuchAlgorithmException;
+import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
-import java.security.spec.X509EncodedKeySpec;
+import java.util.UUID;
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 @EnableMethodSecurity
 public class SecurityConfig {
-
-    @Value("${oauth.client-id}")
-    private String clientId;
 
     private final ElasticSearchTokenRepository elasticSearchTokenRepository;
     private final TenantInfoService tenantInfoService;
@@ -54,14 +53,24 @@ public class SecurityConfig {
 
     @Bean
     public JwtDecoder jwtDecoder() throws Exception {
-        KeyResponse key = tenantInfoService.getKey(clientId);
-        RSAPublicKey rsaPublicKey = loadPublicKey(key.pubKey());
+        RSAKey rsaKey = generateRsa();
+        RSAPublicKey rsaPublicKey = rsaKey.toRSAPublicKey();
         return NimbusJwtDecoder.withPublicKey(rsaPublicKey).build();
     }
 
-    private RSAPublicKey loadPublicKey(byte[] publicKeyBytes) throws Exception {
-        KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-        X509EncodedKeySpec keySpec = new X509EncodedKeySpec(publicKeyBytes);
-        return (RSAPublicKey) keyFactory.generatePublic(keySpec);
+    private RSAKey generateRsa() throws NoSuchAlgorithmException {
+        KeyPair keyPair = generateKeyPair();
+        RSAPrivateKey rsaPrivateKey = (RSAPrivateKey) keyPair.getPrivate();
+        RSAPublicKey rsaPublicKey = (RSAPublicKey) keyPair.getPublic();
+        return new RSAKey.Builder(rsaPublicKey)
+                .privateKey(rsaPrivateKey)
+                .keyID(UUID.randomUUID().toString())
+                .build();
+    }
+
+    private KeyPair generateKeyPair() throws NoSuchAlgorithmException {
+        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+        keyPairGenerator.initialize(2048);
+        return keyPairGenerator.generateKeyPair();
     }
 }
