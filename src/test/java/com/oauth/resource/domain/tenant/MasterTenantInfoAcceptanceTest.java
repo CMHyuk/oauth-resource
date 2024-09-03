@@ -29,7 +29,7 @@ public class MasterTenantInfoAcceptanceTest extends AcceptanceTest {
             ExtractableResponse<Response> response = RestAssured.given().log().all()
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .body(request)
-                    .post("/master/tenant/v1/create")
+                    .post("/resource/api/master/tenant/v1/create")
                     .then().log().all()
                     .extract();
 
@@ -47,7 +47,7 @@ public class MasterTenantInfoAcceptanceTest extends AcceptanceTest {
             ExtractableResponse<Response> response = RestAssured.given().log().all()
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .body(request)
-                    .post("/master/tenant/v1/create")
+                    .post("/resource/api/master/tenant/v1/create")
                     .then().log().all()
                     .extract();
 
@@ -65,7 +65,7 @@ public class MasterTenantInfoAcceptanceTest extends AcceptanceTest {
             ExtractableResponse<Response> response = RestAssured.given().log().all()
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .body(request)
-                    .post("/master/tenant/v1/search")
+                    .post("/resource/api/master/tenant/v1/search")
                     .then().log().all()
                     .extract();
 
@@ -82,7 +82,7 @@ public class MasterTenantInfoAcceptanceTest extends AcceptanceTest {
             ExtractableResponse<Response> response = RestAssured.given().log().all()
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .body(request)
-                    .post("/master/tenant/v1/search")
+                    .post("/resource/api/master/tenant/v1/search")
                     .then().log().all()
                     .extract();
 

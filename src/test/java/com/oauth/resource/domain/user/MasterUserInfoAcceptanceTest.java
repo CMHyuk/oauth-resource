@@ -23,7 +23,6 @@ public class MasterUserInfoAcceptanceTest extends AcceptanceTest {
 
         private static final String TENANT_ID = UUID.randomUUID().toString();
         private static final String USER_ID = "master@email.com";
-        private static final String UPDATED_USER_ID = "update@email.com";
 
         @Test
         @Order(1)
@@ -40,7 +39,7 @@ public class MasterUserInfoAcceptanceTest extends AcceptanceTest {
             ExtractableResponse<Response> response = RestAssured.given().log().all()
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .body(request)
-                    .post("/master/{tenantId}/user/v1/create", TENANT_ID)
+                    .post("/resource/api/master/{tenantId}/user/v1/create", TENANT_ID)
                     .then().log().all()
                     .extract();
 
@@ -63,7 +62,7 @@ public class MasterUserInfoAcceptanceTest extends AcceptanceTest {
             ExtractableResponse<Response> response = RestAssured.given().log().all()
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .body(request)
-                    .post("/master/{tenantId}/user/v1/create", TENANT_ID)
+                    .post("/resource/api/master/{tenantId}/user/v1/create", TENANT_ID)
                     .then().log().all()
                     .extract();
 
@@ -86,7 +85,7 @@ public class MasterUserInfoAcceptanceTest extends AcceptanceTest {
             ExtractableResponse<Response> response = RestAssured.given().log().all()
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .body(request)
-                    .post("/master/{tenantId}/user/v1/create", TENANT_ID)
+                    .post("/resource/api/master/{tenantId}/user/v1/create", TENANT_ID)
                     .then().log().all()
                     .extract();
 
@@ -100,7 +99,7 @@ public class MasterUserInfoAcceptanceTest extends AcceptanceTest {
             // when
             ExtractableResponse<Response> response = RestAssured.given().log().all()
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
-                    .get("/master/{tenantId}/user/v1/{userId}", TENANT_ID, USER_ID)
+                    .get("/resource/api/master/{tenantId}/user/v1/{userId}", TENANT_ID, USER_ID)
                     .then().log().all()
                     .extract();
 
@@ -113,7 +112,7 @@ public class MasterUserInfoAcceptanceTest extends AcceptanceTest {
             // when
             ExtractableResponse<Response> response = RestAssured.given().log().all()
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
-                    .get("/master/{tenantId}/user/v1/{userId}", "NOT EXISTED", "NOT EXISTED")
+                    .get("/resource/api/master/{tenantId}/user/v1/{userId}", "NOT EXISTED", "NOT EXISTED")
                     .then().log().all()
                     .extract();
 
@@ -127,7 +126,6 @@ public class MasterUserInfoAcceptanceTest extends AcceptanceTest {
             // given
             MasterUserInfoUpdateRequest request = new MasterUserInfoUpdateRequest(
                     "updateName",
-                    UPDATED_USER_ID,
                     "update@example.com",
                     "update1234!"
             );
@@ -136,7 +134,7 @@ public class MasterUserInfoAcceptanceTest extends AcceptanceTest {
             ExtractableResponse<Response> response = RestAssured.given().log().all()
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .body(request)
-                    .post("/master/{tenantId}/user/v1/{userId}/update", TENANT_ID, USER_ID)
+                    .post("/resource/api/master/{tenantId}/user/v1/{userId}/update", TENANT_ID, USER_ID)
                     .then().log().all()
                     .extract();
 
@@ -146,12 +144,11 @@ public class MasterUserInfoAcceptanceTest extends AcceptanceTest {
 
         @Test
         @Order(6)
-        void 수정할_때_유저_아이디가_이메일_형식에_맞지_않으면_예외가_발생한다() {
+        void 수정할_때_이메일이_형식에_맞지_않으면_예외가_발생한다() {
             // given
             MasterUserInfoUpdateRequest request = new MasterUserInfoUpdateRequest(
                     "updateName",
-                    "master",
-                    "update@example.com",
+                    "update",
                     "update1234!"
             );
 
@@ -159,7 +156,7 @@ public class MasterUserInfoAcceptanceTest extends AcceptanceTest {
             ExtractableResponse<Response> response = RestAssured.given().log().all()
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .body(request)
-                    .post("/master/{tenantId}/user/v1/{userId}/update", TENANT_ID, USER_ID)
+                    .post("/resource/api/master/{tenantId}/user/v1/{userId}/update", TENANT_ID, USER_ID)
                     .then().log().all()
                     .extract();
 
@@ -169,34 +166,11 @@ public class MasterUserInfoAcceptanceTest extends AcceptanceTest {
 
         @Test
         @Order(7)
-        void 수정할_때_이메일이_형식에_맞지_않으면_예외가_발생한다() {
-            // given
-            MasterUserInfoUpdateRequest request = new MasterUserInfoUpdateRequest(
-                    "updateName",
-                    UPDATED_USER_ID,
-                    "update",
-                    "update1234!"
-            );
-
-            // when
-            ExtractableResponse<Response> response = RestAssured.given().log().all()
-                    .contentType(MediaType.APPLICATION_JSON_VALUE)
-                    .body(request)
-                    .post("/master/{tenantId}/user/v1/{userId}/update", TENANT_ID, USER_ID)
-                    .then().log().all()
-                    .extract();
-
-            // then
-            assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
-        }
-
-        @Test
-        @Order(8)
         void 삭제한다() {
             // when
             ExtractableResponse<Response> response = RestAssured.given().log().all()
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
-                    .post("/master/{tenantId}/user/v1/{userId}/delete", TENANT_ID, UPDATED_USER_ID)
+                    .post("/resource/api/master/{tenantId}/user/v1/{userId}/delete", TENANT_ID, USER_ID)
                     .then().log().all()
                     .extract();
 

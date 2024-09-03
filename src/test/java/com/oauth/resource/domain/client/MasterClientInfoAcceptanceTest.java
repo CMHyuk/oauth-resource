@@ -19,7 +19,6 @@ public class MasterClientInfoAcceptanceTest extends AcceptanceTest {
 
     private static final String TENANT_ID = UUID.randomUUID().toString();
     private static final String CLIENT_ID = "oauth-client-userId";
-    private static final String UPDATED_CLIENT_ID = "update-oauth-userId";
 
     @Nested
     @DisplayName("마스터 클라이언트를")
@@ -40,7 +39,7 @@ public class MasterClientInfoAcceptanceTest extends AcceptanceTest {
             ExtractableResponse<Response> response = RestAssured.given().log().all()
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .body(request)
-                    .post("/master/{clientId}/client/v1/create", TENANT_ID)
+                    .post("/resource/api/master/{clientId}/client/v1/create", TENANT_ID)
                     .then().log().all()
                     .extract();
 
@@ -54,7 +53,7 @@ public class MasterClientInfoAcceptanceTest extends AcceptanceTest {
             // when
             ExtractableResponse<Response> response = RestAssured.given().log().all()
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
-                    .get("/master/{tenantId}/client/v1/{clientId}", TENANT_ID, CLIENT_ID)
+                    .get("/resource/api/master/{tenantId}/client/v1/{clientId}", TENANT_ID, CLIENT_ID)
                     .then().log().all()
                     .extract();
 
@@ -67,7 +66,7 @@ public class MasterClientInfoAcceptanceTest extends AcceptanceTest {
             // when
             ExtractableResponse<Response> response = RestAssured.given().log().all()
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
-                    .get("/master/{tenantId}/client/v1/{clientId}", "NOT EXISTED", "NOT EXISTED")
+                    .get("/resource/api/master/{tenantId}/client/v1/{clientId}", "NOT EXISTED", "NOT EXISTED")
                     .then().log().all()
                     .extract();
 
@@ -80,7 +79,6 @@ public class MasterClientInfoAcceptanceTest extends AcceptanceTest {
         void 수정한다() {
             // given
             MasterClientInfoUpdateRequest request = new MasterClientInfoUpdateRequest(
-                    UPDATED_CLIENT_ID,
                     "updateName",
                     "updateSecret",
                     Set.of("http://127.0.0.1:8081"),
@@ -92,7 +90,7 @@ public class MasterClientInfoAcceptanceTest extends AcceptanceTest {
             ExtractableResponse<Response> response = RestAssured.given().log().all()
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .body(request)
-                    .post("/master/{tenantId}/client/v1/{clientId}/update", TENANT_ID, CLIENT_ID)
+                    .post("/resource/api/master/{tenantId}/client/v1/{clientId}/update", TENANT_ID, CLIENT_ID)
                     .then().log().all()
                     .extract();
 
@@ -106,7 +104,7 @@ public class MasterClientInfoAcceptanceTest extends AcceptanceTest {
             // when
             ExtractableResponse<Response> response = RestAssured.given().log().all()
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
-                    .post("/master/{tenantId}/client/v1/{clientId}/delete", TENANT_ID, UPDATED_CLIENT_ID)
+                    .post("/resource/api/master/{tenantId}/client/v1/{clientId}/delete", TENANT_ID, CLIENT_ID)
                     .then().log().all()
                     .extract();
 
