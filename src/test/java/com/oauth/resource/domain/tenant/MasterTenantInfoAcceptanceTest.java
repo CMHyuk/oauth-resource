@@ -3,6 +3,7 @@ package com.oauth.resource.domain.tenant;
 import com.oauth.resource.domain.tenant.dto.MasterTenantInfoSaveRequest;
 import com.oauth.resource.domain.tenant.dto.MasterTenantSearchRequest;
 import com.oauth.resource.support.AcceptanceTest;
+import com.oauth.resource.support.TestClassesOrder;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
@@ -12,6 +13,7 @@ import org.springframework.http.MediaType;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@TestClassesOrder(1)
 public class MasterTenantInfoAcceptanceTest extends AcceptanceTest {
 
     @Nested

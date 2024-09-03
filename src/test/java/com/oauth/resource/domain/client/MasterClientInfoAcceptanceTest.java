@@ -3,6 +3,7 @@ package com.oauth.resource.domain.client;
 import com.oauth.resource.domain.client.dto.ClientInfoSaveRequest;
 import com.oauth.resource.domain.client.dto.MasterClientInfoUpdateRequest;
 import com.oauth.resource.support.AcceptanceTest;
+import com.oauth.resource.support.TestClassesOrder;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
@@ -15,6 +16,7 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@TestClassesOrder(2)
 public class MasterClientInfoAcceptanceTest extends AcceptanceTest {
 
     private static final String TENANT_ID = UUID.randomUUID().toString();

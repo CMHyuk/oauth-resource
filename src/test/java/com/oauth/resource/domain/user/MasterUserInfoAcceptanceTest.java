@@ -3,6 +3,7 @@ package com.oauth.resource.domain.user;
 import com.oauth.resource.domain.user.dto.UserInfoSaveRequest;
 import com.oauth.resource.domain.user.dto.MasterUserInfoUpdateRequest;
 import com.oauth.resource.support.AcceptanceTest;
+import com.oauth.resource.support.TestClassesOrder;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
@@ -14,6 +15,7 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@TestClassesOrder(3)
 public class MasterUserInfoAcceptanceTest extends AcceptanceTest {
 
     @Nested
