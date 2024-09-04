@@ -8,6 +8,8 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class AcceptanceTest extends SpringElasticSearchTestContainer {
 
+    protected static String tenantId;
+
     @LocalServerPort
     private int port;
 

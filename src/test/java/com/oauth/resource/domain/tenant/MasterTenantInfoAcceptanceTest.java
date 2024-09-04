@@ -37,6 +37,7 @@ public class MasterTenantInfoAcceptanceTest extends AcceptanceTest {
 
             // then
             assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+            tenantId = response.body().jsonPath().getString("response.id");
         }
 
         @Test

@@ -12,7 +12,7 @@ import org.testcontainers.utility.DockerImageName;
 
 @Slf4j
 @Testcontainers
-class SpringElasticSearchTestContainer {
+public class SpringElasticSearchTestContainer {
 
     static final DockerImageName myImage = DockerImageName.parse("elasticsearch:7.9.3").asCompatibleSubstituteFor("docker.elastic.co/elasticsearch/elasticsearch");
     static final ElasticsearchContainer ELASTICSEARCH_CONTAINER = new ElasticsearchContainer(myImage)
@@ -21,8 +21,8 @@ class SpringElasticSearchTestContainer {
     static final DockerImageName AUTHORIZATION_IMAGE = DockerImageName.parse("scr.softcamp.co.kr/secaas/ojt-minhyeok-authorization:latest");
     static final DockerImageName REDIS_IMAGE = DockerImageName.parse("redis");
 
-    protected static final GenericContainer<?> AUTHORIZATION_CONTAINER;
-    protected static final GenericContainer<?> REDIS_CONTAINER;
+    public static final GenericContainer<?> AUTHORIZATION_CONTAINER;
+    public static final GenericContainer<?> REDIS_CONTAINER;
 
     static {
         ELASTICSEARCH_CONTAINER.start();
@@ -35,19 +35,18 @@ class SpringElasticSearchTestContainer {
 
         // Authorization
         AUTHORIZATION_CONTAINER = new GenericContainer<>(AUTHORIZATION_IMAGE)
-                .withEnv("spring.profiles.active", "docker")
-
+                .withEnv("spring.profiles.active", "dev")
                 .withEnv("ELASTIC_HOST", ELASTICSEARCH_CONTAINER.getHost())
                 .withEnv("ELASTIC_PORT", ELASTICSEARCH_CONTAINER.getFirstMappedPort().toString())
-                .withEnv("ELASTIC_ISHTTPS", "0")
 
                 .withEnv("REDIS_HOST", REDIS_CONTAINER.getHost())
                 .withEnv("REDIS_PORT", REDIS_CONTAINER.getFirstMappedPort().toString())
-                .withEnv("REDIS_PASSWORD", "")
+                .withEnv("REDIS_PASSWORD", "1234")
 
                 .withExposedPorts(9000);
 
         AUTHORIZATION_CONTAINER.addExposedPorts(9000);
+
         AUTHORIZATION_CONTAINER.setWaitStrategy(new WaitAllStrategy());
         AUTHORIZATION_CONTAINER.start();
 
