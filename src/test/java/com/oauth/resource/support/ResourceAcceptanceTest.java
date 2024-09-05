@@ -15,6 +15,7 @@ public class ResourceAcceptanceTest extends SpringElasticSearchTestContainer {
 
     @BeforeEach
     void setUp() {
+        RestAssured.baseURI = "http://localhost";
         RestAssured.port = port;
     }
 }

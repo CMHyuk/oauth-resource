@@ -1,4 +1,4 @@
-package com.oauth.resource.domain.tenant;
+package com.oauth.resource.resource.domain.tenant;
 
 import com.oauth.resource.domain.tenant.dto.MasterTenantInfoSaveRequest;
 import com.oauth.resource.domain.tenant.dto.MasterTenantSearchRequest;

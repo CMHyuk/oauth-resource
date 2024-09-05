@@ -1,4 +1,4 @@
-package com.oauth.resource.domain.user;
+package com.oauth.resource.resource.domain.user;
 
 import com.oauth.resource.domain.user.dto.UserInfoSaveRequest;
 import com.oauth.resource.domain.user.dto.MasterUserInfoUpdateRequest;
@@ -11,6 +11,8 @@ import org.junit.jupiter.api.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
+import static com.oauth.resource.support.DocumentFieldConstants.PASSWORD;
+import static com.oauth.resource.support.DocumentFieldConstants.USER_ID;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @TestClassesOrder(3)
@@ -21,8 +23,6 @@ public class MasterUserInfoAcceptanceTest extends ResourceAcceptanceTest {
     @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
     class MasterUserInfoTest {
 
-        private static final String USER_ID = "master@email.com";
-
         @Test
         @Order(1)
         void 저장한다() {
@@ -31,7 +31,7 @@ public class MasterUserInfoAcceptanceTest extends ResourceAcceptanceTest {
                     "master-name",
                     USER_ID,
                     "master@example.com",
-                    "password123!"
+                    PASSWORD
             );
 
             // when
@@ -54,7 +54,7 @@ public class MasterUserInfoAcceptanceTest extends ResourceAcceptanceTest {
                     "master-name",
                     "master",
                     "master@example.com",
-                    "password123!"
+                    PASSWORD
             );
 
             // when
@@ -75,9 +75,9 @@ public class MasterUserInfoAcceptanceTest extends ResourceAcceptanceTest {
             // given
             UserInfoSaveRequest request = new UserInfoSaveRequest(
                     "master-name",
-                    "master@email.com",
+                    USER_ID,
                     "master",
-                    "password123!"
+                    PASSWORD
             );
 
             // when

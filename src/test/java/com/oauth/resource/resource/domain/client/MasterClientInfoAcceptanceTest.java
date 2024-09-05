@@ -1,4 +1,4 @@
-package com.oauth.resource.domain.client;
+package com.oauth.resource.resource.domain.client;
 
 import com.oauth.resource.domain.client.dto.ClientInfoSaveRequest;
 import com.oauth.resource.support.ResourceAcceptanceTest;
@@ -12,12 +12,11 @@ import org.springframework.http.MediaType;
 
 import java.util.Set;
 
+import static com.oauth.resource.support.DocumentFieldConstants.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @TestClassesOrder(2)
 public class MasterClientInfoAcceptanceTest extends ResourceAcceptanceTest {
-
-    private static final String CLIENT_ID = "oauth-client-id";
 
     @Nested
     @DisplayName("마스터 클라이언트를")
@@ -31,9 +30,9 @@ public class MasterClientInfoAcceptanceTest extends ResourceAcceptanceTest {
             ClientInfoSaveRequest request = new ClientInfoSaveRequest(
                     CLIENT_ID,
                     "oauth-client-name",
-                    "oauth-client-secret",
-                    Set.of("http://127.0.0.1:8081"),
-                    Set.of("read")
+                    CLIENT_SECRET,
+                    Set.of(REDIRECT_URI),
+                    Set.of(SCOPE)
             );
 
             // when

@@ -6,6 +6,7 @@ import com.oauth.resource.domain.authorization.repository.CustomOAuth2Authorizat
 import com.oauth.resource.global.exception.BusinessException;
 import com.oauth.resource.support.AuthorizationAcceptanceTest;
 import com.oauth.resource.support.TestClassesOrder;
+import com.oauth.resource.support.TokenContext;
 import io.restassured.RestAssured;
 import io.restassured.http.Cookies;
 import io.restassured.response.ExtractableResponse;
@@ -19,6 +20,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Arrays;
 
+import static com.oauth.resource.support.DocumentFieldConstants.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED_VALUE;
 
@@ -32,9 +34,9 @@ public class AuthorizationServerAcceptanceTest extends AuthorizationAcceptanceTe
     private String code;
 
     @Test
-    void 인가_서버_테스트() throws URISyntaxException {
+    void 인가_서버에서_토큰을_발행한다() throws URISyntaxException {
         loginTest();
-        getConsentTest();
+        consentPageTest();
         getCodeTest();
         getTokenTest();
     }
@@ -42,8 +44,8 @@ public class AuthorizationServerAcceptanceTest extends AuthorizationAcceptanceTe
     private void loginTest() {
         // when
         ExtractableResponse<Response> response = RestAssured.given().log().all()
-                .queryParam("username", "master@email.com")
-                .queryParam("password", "password123!")
+                .queryParam("username", USER_ID)
+                .queryParam("password", PASSWORD)
                 .post("/authorization/login")
                 .then().log().all()
                 .extract();
@@ -53,13 +55,13 @@ public class AuthorizationServerAcceptanceTest extends AuthorizationAcceptanceTe
         assertThat(response.statusCode()).isEqualTo(HttpStatus.FOUND.value());
     }
 
-    private void getConsentTest() {
+    private void consentPageTest() {
         // when
         ExtractableResponse<Response> response = RestAssured.given().log().all()
                 .queryParam("response_type", "code")
-                .queryParam("client_id", "oauth-client-id")
-                .queryParam("scope", "read")
-                .queryParam("redirect_uri", "http://127.0.0.1:8081")
+                .queryParam("client_id", CLIENT_ID)
+                .queryParam("scope", SCOPE)
+                .queryParam("redirect_uri", REDIRECT_URI)
                 .cookies(cookies)
                 .get("/authorization/oauth2/authorize")
                 .then().log().all()
@@ -77,9 +79,9 @@ public class AuthorizationServerAcceptanceTest extends AuthorizationAcceptanceTe
         // when
         ExtractableResponse<Response> response = RestAssured.given().log().all()
                 .contentType(APPLICATION_FORM_URLENCODED_VALUE)
-                .formParam("client_id", "oauth-client-id")
+                .formParam("client_id", CLIENT_ID)
                 .formParam("state", customOAuth2Authorization.getState())
-                .formParam("scope", "read")
+                .formParam("scope", SCOPE)
                 .cookies(cookies)
                 .post("/authorization/oauth2/authorize")
                 .then().log().all()
@@ -92,25 +94,24 @@ public class AuthorizationServerAcceptanceTest extends AuthorizationAcceptanceTe
 
     private void getTokenTest() {
         // given
-        String clientId = "oauth-client-id";
-        String clientSecret = "oauth-client-secret";
-        String credentials = clientId + ":" + clientSecret;
+        String credentials = CLIENT_ID + ":" + CLIENT_SECRET;
         String encodedCredentials = Base64.encodeBase64String(credentials.getBytes());
 
         // when
-        ExtractableResponse<Response> tokenResponse = RestAssured.given().log().all()
+        ExtractableResponse<Response> response = RestAssured.given().log().all()
                 .header("Authorization", "Basic " + encodedCredentials)
                 .contentType(APPLICATION_FORM_URLENCODED_VALUE)
                 .formParam("code", code)
                 .formParam("grant_type", "authorization_code")
-                .formParam("redirect_uri", "http://127.0.0.1:8081")
+                .formParam("redirect_uri", REDIRECT_URI)
                 .cookies(cookies)
                 .post("/authorization/oauth2/token")
                 .then().log().all()
                 .extract();
 
         // then
-        assertThat(tokenResponse.statusCode()).isEqualTo(HttpStatus.OK.value());
+        TokenContext.setAccessToken(response.body().jsonPath().getString("access_token"));
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
     }
 
     private String getCode(String locationHeader) throws URISyntaxException {
