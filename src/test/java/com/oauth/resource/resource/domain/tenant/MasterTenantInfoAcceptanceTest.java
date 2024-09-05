@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 @TestClassesOrder(1)
 public class MasterTenantInfoAcceptanceTest extends ResourceAcceptanceTest {
@@ -36,8 +37,11 @@ public class MasterTenantInfoAcceptanceTest extends ResourceAcceptanceTest {
                     .extract();
 
             // then
-            assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
             tenantId = response.body().jsonPath().getString("response.id");
+            assertAll(
+                    () ->  assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
+                    () ->  assertThat(response.body().jsonPath().getString("response.name")).isEqualTo("master")
+            );
         }
 
         @Test
@@ -73,7 +77,10 @@ public class MasterTenantInfoAcceptanceTest extends ResourceAcceptanceTest {
                     .extract();
 
             // then
-            assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+            assertAll(
+                    () ->  assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
+                    () ->  assertThat(response.body().jsonPath().getString("response.name")).isEqualTo("master")
+            );
         }
 
         @Test

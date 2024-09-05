@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 @TestClassesOrder(5)
 public class TenantInfoAcceptanceTest extends ResourceAcceptanceTest {
@@ -20,7 +21,8 @@ public class TenantInfoAcceptanceTest extends ResourceAcceptanceTest {
     @Test
     void 테넌트를_생성한다() {
         // given
-        TenantInfoRequest request = new TenantInfoRequest("sk");
+        String tenantName = "sk";
+        TenantInfoRequest request = new TenantInfoRequest(tenantName);
 
         // when
         ExtractableResponse<Response> response = RestAssured.given().log().all()
@@ -32,6 +34,9 @@ public class TenantInfoAcceptanceTest extends ResourceAcceptanceTest {
                 .extract();
 
         // then
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+        assertAll(
+                () ->  assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
+                () ->  assertThat(response.body().jsonPath().getString("response.tenantName")).isEqualTo(tenantName)
+        );
     }
 }

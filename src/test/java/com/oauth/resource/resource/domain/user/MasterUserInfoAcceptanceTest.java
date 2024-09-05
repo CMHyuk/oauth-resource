@@ -14,6 +14,7 @@ import org.springframework.http.MediaType;
 import static com.oauth.resource.support.DocumentFieldConstants.PASSWORD;
 import static com.oauth.resource.support.DocumentFieldConstants.USER_ID;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 @TestClassesOrder(3)
 public class MasterUserInfoAcceptanceTest extends ResourceAcceptanceTest {
@@ -43,7 +44,14 @@ public class MasterUserInfoAcceptanceTest extends ResourceAcceptanceTest {
                     .extract();
 
             // then
-            assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+            assertAll(
+                    () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
+                    () -> assertThat(response.body().jsonPath().getString("response.username")).isEqualTo("master-name"),
+                    () -> assertThat(response.body().jsonPath().getString("response.userId")).isEqualTo("master@email.com"),
+                    () -> assertThat(response.body().jsonPath().getString("response.email")).isEqualTo("master@example.com"),
+                    () -> assertThat(response.body().jsonPath().getString("response.password")).isNotNull(),
+                    () -> assertThat(response.body().jsonPath().getString("response.userRole")).isEqualTo("[MASTER]")
+            );
         }
 
         @Test
@@ -103,7 +111,14 @@ public class MasterUserInfoAcceptanceTest extends ResourceAcceptanceTest {
                     .extract();
 
             // then
-            assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+            assertAll(
+                    () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
+                    () -> assertThat(response.body().jsonPath().getString("response.username")).isEqualTo("master-name"),
+                    () -> assertThat(response.body().jsonPath().getString("response.userId")).isEqualTo("master@email.com"),
+                    () -> assertThat(response.body().jsonPath().getString("response.email")).isEqualTo("master@example.com"),
+                    () -> assertThat(response.body().jsonPath().getString("response.password")).isNotNull(),
+                    () -> assertThat(response.body().jsonPath().getString("response.userRole")).isEqualTo("[MASTER]")
+            );
         }
 
         @Test

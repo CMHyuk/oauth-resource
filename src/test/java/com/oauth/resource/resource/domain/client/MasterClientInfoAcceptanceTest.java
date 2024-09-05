@@ -14,6 +14,7 @@ import java.util.Set;
 
 import static com.oauth.resource.support.DocumentFieldConstants.*;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 @TestClassesOrder(2)
 public class MasterClientInfoAcceptanceTest extends ResourceAcceptanceTest {
@@ -44,7 +45,13 @@ public class MasterClientInfoAcceptanceTest extends ResourceAcceptanceTest {
                     .extract();
 
             // then
-            assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+            assertAll(
+                    () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
+                    () -> assertThat(response.body().jsonPath().get("response.clientId").toString()).isEqualTo("oauth-client-id"),
+                    () -> assertThat(response.body().jsonPath().get("response.clientSecret").toString()).isNotNull(),
+                    () -> assertThat(response.body().jsonPath().get("response.redirectUris").toString()).isEqualTo("[http://127.0.0.1:8081]"),
+                    () -> assertThat(response.body().jsonPath().get("response.scopes").toString()).isEqualTo("[read]")
+            );
         }
 
         @Test
@@ -58,7 +65,13 @@ public class MasterClientInfoAcceptanceTest extends ResourceAcceptanceTest {
                     .extract();
 
             // then
-            assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+            assertAll(
+                    () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
+                    () -> assertThat(response.body().jsonPath().get("response.clientId").toString()).isEqualTo("oauth-client-id"),
+                    () -> assertThat(response.body().jsonPath().get("response.clientSecret").toString()).isNotNull(),
+                    () -> assertThat(response.body().jsonPath().get("response.redirectUris").toString()).isEqualTo("[http://127.0.0.1:8081]"),
+                    () -> assertThat(response.body().jsonPath().get("response.scopes").toString()).isEqualTo("[read]")
+            );
         }
 
         @Test
