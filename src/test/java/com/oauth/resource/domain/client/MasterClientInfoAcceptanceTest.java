@@ -1,8 +1,7 @@
 package com.oauth.resource.domain.client;
 
 import com.oauth.resource.domain.client.dto.ClientInfoSaveRequest;
-import com.oauth.resource.domain.client.dto.MasterClientInfoUpdateRequest;
-import com.oauth.resource.support.AcceptanceTest;
+import com.oauth.resource.support.ResourceAcceptanceTest;
 import com.oauth.resource.support.TestClassesOrder;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
@@ -12,12 +11,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
 import java.util.Set;
-import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @TestClassesOrder(2)
-public class MasterClientInfoAcceptanceTest extends AcceptanceTest {
+public class MasterClientInfoAcceptanceTest extends ResourceAcceptanceTest {
 
     private static final String CLIENT_ID = "oauth-client-id";
 
@@ -32,8 +30,8 @@ public class MasterClientInfoAcceptanceTest extends AcceptanceTest {
             // given
             ClientInfoSaveRequest request = new ClientInfoSaveRequest(
                     CLIENT_ID,
-                    "client-name",
-                    "client-secret",
+                    "oauth-client-name",
+                    "oauth-client-secret",
                     Set.of("http://127.0.0.1:8081"),
                     Set.of("read")
             );

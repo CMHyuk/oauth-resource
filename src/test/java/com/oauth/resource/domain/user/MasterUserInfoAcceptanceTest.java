@@ -2,7 +2,7 @@ package com.oauth.resource.domain.user;
 
 import com.oauth.resource.domain.user.dto.UserInfoSaveRequest;
 import com.oauth.resource.domain.user.dto.MasterUserInfoUpdateRequest;
-import com.oauth.resource.support.AcceptanceTest;
+import com.oauth.resource.support.ResourceAcceptanceTest;
 import com.oauth.resource.support.TestClassesOrder;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
@@ -11,12 +11,10 @@ import org.junit.jupiter.api.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
-import java.util.UUID;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 @TestClassesOrder(3)
-public class MasterUserInfoAcceptanceTest extends AcceptanceTest {
+public class MasterUserInfoAcceptanceTest extends ResourceAcceptanceTest {
 
     @Nested
     @DisplayName("마스터 사용자를")
