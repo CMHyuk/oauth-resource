@@ -10,6 +10,7 @@ podTemplate(
         ],
         volumes: [
                 hostPathVolume(hostPath: "/var/run/docker.sock", mountPath: "/var/run/docker.sock"),
+                hostPathVolume(hostPath: "/home/iadmin/.docker/config.json", mountPath: "/root/.docker/config.json"),
                 persistentVolumeClaim(mountPath: '/root/.m2/repository', claimName: 'maven-repo-storage', readOnly: false)
         ]
 )
