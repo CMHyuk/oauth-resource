@@ -27,7 +27,7 @@ public class ClientInfoMapper {
     public void update(ClientInfo clientInfo, MasterClientInfoUpdateRequest request) {
         clientInfo.update(
                 request.clientName(),
-                request.clientSecret(),
+                passwordEncoder.encode(request.clientSecret()),
                 request.redirectUris(),
                 request.accessTokenValiditySeconds(),
                 request.scopes()
