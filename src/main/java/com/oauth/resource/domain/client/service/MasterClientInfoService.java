@@ -6,7 +6,6 @@ import com.oauth.resource.domain.client.exception.ClientErrorCode;
 import com.oauth.resource.domain.client.mapper.ClientInfoMapper;
 import com.oauth.resource.domain.client.model.ClientInfo;
 import com.oauth.resource.domain.client.repository.ClientInfoRepository;
-import com.oauth.resource.domain.client.repository.ClientInfoBaseRepository;
 import com.oauth.resource.global.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
