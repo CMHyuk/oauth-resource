@@ -1,6 +1,7 @@
 package com.oauth.resource.resource.domain.client;
 
 import com.oauth.resource.domain.client.dto.ClientInfoSaveRequest;
+import com.oauth.resource.domain.client.dto.MasterClientInfoUpdateRequest;
 import com.oauth.resource.support.ResourceAcceptanceTest;
 import com.oauth.resource.support.TestClassesOrder;
 import io.restassured.RestAssured;
@@ -87,42 +88,28 @@ public class MasterClientInfoAcceptanceTest extends ResourceAcceptanceTest {
             assertThat(response.statusCode()).isEqualTo(HttpStatus.NOT_FOUND.value());
         }
 
-//        @Test
-//        @Order(3)
-//        void 수정한다() {
-//            // given
-//            MasterClientInfoUpdateRequest request = new MasterClientInfoUpdateRequest(
-//                    "updateName",
-//                    "updateSecret",
-//                    Set.of("http://127.0.0.1:8081"),
-//                    Set.of("read", "delete"),
-//                    200
-//            );
-//
-//            // when
-//            ExtractableResponse<Response> response = RestAssured.given().log().all()
-//                    .contentType(MediaType.APPLICATION_JSON_VALUE)
-//                    .body(request)
-//                    .post("/resource/api/master/{tenantId}/client/v1/{clientId}/update", TENANT_ID, CLIENT_ID)
-//                    .then().log().all()
-//                    .extract();
-//
-//            // then
-//            assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
-//        }
-//
-//        @Test
-//        @Order(4)
-//        void 삭제한다() {
-//            // when
-//            ExtractableResponse<Response> response = RestAssured.given().log().all()
-//                    .contentType(MediaType.APPLICATION_JSON_VALUE)
-//                    .post("/resource/api/master/{tenantId}/client/v1/{clientId}/delete", TENANT_ID, CLIENT_ID)
-//                    .then().log().all()
-//                    .extract();
-//
-//            // then
-//            assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
-//        }
+        @Test
+        @Order(3)
+        void 수정한다() {
+            // given
+            MasterClientInfoUpdateRequest request = new MasterClientInfoUpdateRequest(
+                    "oauth-client-name",
+                    CLIENT_SECRET,
+                    Set.of(REDIRECT_URI),
+                    Set.of(SCOPE),
+                    200
+            );
+
+            // when
+            ExtractableResponse<Response> response = RestAssured.given().log().all()
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .body(request)
+                    .post("/resource/api/master/{tenantId}/client/v1/{clientId}/update", tenantId, CLIENT_ID)
+                    .then().log().all()
+                    .extract();
+
+            // then
+            assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+        }
     }
 }

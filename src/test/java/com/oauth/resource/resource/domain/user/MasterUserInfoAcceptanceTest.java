@@ -134,36 +134,36 @@ public class MasterUserInfoAcceptanceTest extends ResourceAcceptanceTest {
             assertThat(response.statusCode()).isEqualTo(HttpStatus.NOT_FOUND.value());
         }
 
-//        @Test
-//        @Order(5)
-//        void 수정한다() {
-//            // given
-//            MasterUserInfoUpdateRequest request = new MasterUserInfoUpdateRequest(
-//                    "updateName",
-//                    "update@example.com",
-//                    "update1234!"
-//            );
-//
-//            // when
-//            ExtractableResponse<Response> response = RestAssured.given().log().all()
-//                    .contentType(MediaType.APPLICATION_JSON_VALUE)
-//                    .body(request)
-//                    .post("/resource/api/master/{tenantId}/user/v1/{userId}/update", TENANT_ID, USER_ID)
-//                    .then().log().all()
-//                    .extract();
-//
-//            // then
-//            assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
-//        }
+        @Test
+        @Order(5)
+        void 수정한다() {
+            // given
+            MasterUserInfoUpdateRequest request = new MasterUserInfoUpdateRequest(
+                    "updateName",
+                    "update@example.com",
+                    PASSWORD
+            );
+
+            // when
+            ExtractableResponse<Response> response = RestAssured.given().log().all()
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .body(request)
+                    .post("/resource/api/master/{tenantId}/user/v1/{userId}/update", tenantId, USER_ID)
+                    .then().log().all()
+                    .extract();
+
+            // then
+            assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+        }
 
         @Test
         @Order(6)
         void 수정할_때_이메일이_형식에_맞지_않으면_예외가_발생한다() {
             // given
             MasterUserInfoUpdateRequest request = new MasterUserInfoUpdateRequest(
-                    "updateName",
-                    "update",
-                    "update1234!"
+                    "update-master-name",
+                    "updatemaster",
+                    PASSWORD
             );
 
             // when
@@ -177,19 +177,5 @@ public class MasterUserInfoAcceptanceTest extends ResourceAcceptanceTest {
             // then
             assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
         }
-
-//        @Test
-//        @Order(7)
-//        void 삭제한다() {
-//            // when
-//            ExtractableResponse<Response> response = RestAssured.given().log().all()
-//                    .contentType(MediaType.APPLICATION_JSON_VALUE)
-//                    .post("/resource/api/master/{tenantId}/user/v1/{userId}/delete", TENANT_ID, USER_ID)
-//                    .then().log().all()
-//                    .extract();
-//
-//            // then
-//            assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
-//        }
     }
 }
