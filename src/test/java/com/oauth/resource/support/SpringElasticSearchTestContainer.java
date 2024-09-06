@@ -7,6 +7,7 @@ import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.output.Slf4jLogConsumer;
 import org.testcontainers.containers.wait.strategy.WaitAllStrategy;
 import org.testcontainers.elasticsearch.ElasticsearchContainer;
+import org.testcontainers.images.PullPolicy;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
@@ -43,7 +44,8 @@ public class SpringElasticSearchTestContainer {
                 .withEnv("REDIS_PORT", REDIS_CONTAINER.getFirstMappedPort().toString())
                 .withEnv("REDIS_PASSWORD", "1234")
 
-                .withExposedPorts(9000);
+                .withExposedPorts(9000)
+                .withImagePullPolicy(PullPolicy.alwaysPull());
 
         AUTHORIZATION_CONTAINER.addExposedPorts(9000);
 
