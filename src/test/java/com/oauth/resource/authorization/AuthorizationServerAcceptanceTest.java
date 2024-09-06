@@ -25,6 +25,7 @@ import java.util.Optional;
 
 import static com.oauth.resource.support.DocumentFieldConstants.*;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED_VALUE;
 
 @TestClassesOrder(4)
@@ -38,10 +39,22 @@ public class AuthorizationServerAcceptanceTest extends AuthorizationAcceptanceTe
 
     @Test
     void 인가_서버에서_토큰을_발행한다() throws URISyntaxException {
+        loginPageTest();
         loginTest();
         consentPageTest();
         getCodeTest();
         getTokenTest();
+    }
+
+    private void loginPageTest() {
+        // when
+        ExtractableResponse<Response> response = RestAssured.given().log().all()
+                .get("/authorization/login")
+                .then().log().all()
+                .extract();
+
+        // then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
     }
 
     private void loginTest() {
@@ -114,7 +127,14 @@ public class AuthorizationServerAcceptanceTest extends AuthorizationAcceptanceTe
 
         // then
         TokenContext.setAccessToken(response.body().jsonPath().getString("access_token"));
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+        assertAll(
+                () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
+                () -> assertThat(response.body().jsonPath().getString("access_token")).isNotNull(),
+                () -> assertThat(response.body().jsonPath().getString("refresh_token")).isNotNull(),
+                () -> assertThat(response.body().jsonPath().getString("scope")).isEqualTo(SCOPE),
+                () -> assertThat(response.body().jsonPath().getString("token_type")).isEqualTo("Bearer"),
+                () -> assertThat(response.body().jsonPath().getString("expires_in")).isEqualTo("299")
+        );
     }
 
     private String getCode(String locationHeader) throws URISyntaxException {
