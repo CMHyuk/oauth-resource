@@ -13,20 +13,12 @@ import java.util.Optional;
 public class CustomOAuth2AuthorizationRepository {
 
     private static final String AUTHORIZATION_KEYWORD = "authorizationId.keyword";
-    private static final String CODE = "code.keyword";
 
     private final CustomOAuth2AuthorizationBaseRepository oauthAuthorizationRepository;
 
     public Optional<CustomOAuth2Authorization> findByAuthorizationId(String authorizationId) {
         BoolQueryBuilder query = QueryBuilders.boolQuery()
                 .filter(QueryBuilders.termQuery(AUTHORIZATION_KEYWORD, authorizationId));
-        CustomOAuth2Authorization customOAuth2Authorization = oauthAuthorizationRepository.find(null, query);
-        return Optional.ofNullable(customOAuth2Authorization);
-    }
-
-    public Optional<CustomOAuth2Authorization> findByCode() {
-        BoolQueryBuilder query = QueryBuilders.boolQuery()
-                .filter(QueryBuilders.matchQuery(CODE, "EMPTY_CODE"));
         CustomOAuth2Authorization customOAuth2Authorization = oauthAuthorizationRepository.find(null, query);
         return Optional.ofNullable(customOAuth2Authorization);
     }

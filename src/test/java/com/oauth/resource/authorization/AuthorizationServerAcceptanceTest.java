@@ -2,7 +2,7 @@ package com.oauth.resource.authorization;
 
 import com.oauth.resource.domain.authorization.exception.OAuth2AuthorizationErrorCode;
 import com.oauth.resource.domain.authorization.model.CustomOAuth2Authorization;
-import com.oauth.resource.domain.authorization.repository.CustomOAuth2AuthorizationRepository;
+import com.oauth.resource.domain.authorization.repository.CustomOAuth2AuthorizationBaseRepository;
 import com.oauth.resource.global.exception.BusinessException;
 import com.oauth.resource.support.AuthorizationAcceptanceTest;
 import com.oauth.resource.support.TestClassesOrder;
@@ -12,6 +12,8 @@ import io.restassured.http.Cookies;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.apache.commons.codec.binary.Base64;
+import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +21,7 @@ import org.springframework.http.HttpStatus;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Arrays;
+import java.util.Optional;
 
 import static com.oauth.resource.support.DocumentFieldConstants.*;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -28,7 +31,7 @@ import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED_VAL
 public class AuthorizationServerAcceptanceTest extends AuthorizationAcceptanceTest {
 
     @Autowired
-    private CustomOAuth2AuthorizationRepository customOAuth2AuthorizationRepository;
+    private CustomOAuth2AuthorizationBaseRepository customOAuth2AuthorizationBaseRepository;
 
     private Cookies cookies;
     private String code;
@@ -73,7 +76,7 @@ public class AuthorizationServerAcceptanceTest extends AuthorizationAcceptanceTe
 
     private void getCodeTest() throws URISyntaxException {
         // given
-        CustomOAuth2Authorization customOAuth2Authorization = customOAuth2AuthorizationRepository.findByCode()
+        CustomOAuth2Authorization customOAuth2Authorization = getCustomOAuth2Authorization()
                 .orElseThrow(() -> BusinessException.from(OAuth2AuthorizationErrorCode.NOT_FOUND));
 
         // when
@@ -122,5 +125,12 @@ public class AuthorizationServerAcceptanceTest extends AuthorizationAcceptanceTe
                 .map(param -> param.split("=")[1])
                 .findFirst()
                 .orElse(null);
+    }
+
+    private Optional<CustomOAuth2Authorization> getCustomOAuth2Authorization() {
+        BoolQueryBuilder query = QueryBuilders.boolQuery()
+                .filter(QueryBuilders.matchQuery("code.keyword", "EMPTY_CODE"));
+        CustomOAuth2Authorization customOAuth2Authorization = customOAuth2AuthorizationBaseRepository.find(null, query);
+        return Optional.ofNullable(customOAuth2Authorization);
     }
 }
