@@ -77,11 +77,11 @@ public class DeleteAcceptanceTest extends ResourceAcceptanceTest {
     }
 
     @Nested
-    @DisplayName("발급된 토큰을")
+    @DisplayName("발급된 토큰을 삭제할 때")
     class AccessTokenDeleteTest {
 
         @Test
-        void 삭제한다() {
+        void 정상적으로_삭제한다() {
             // given
             AccessTokenDeleteRequest request = new AccessTokenDeleteRequest(TokenContext.getMasterUserAccessToken());
 
@@ -99,6 +99,24 @@ public class DeleteAcceptanceTest extends ResourceAcceptanceTest {
                     () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
                     () -> assertThat(elasticSearchTokenRepository.findByAccessToken(request.accessToken())).isEmpty()
             );
+        }
+
+        @Test
+        void 존재하지_않은_토큰은_예외가_발생한다() {
+            // given
+            AccessTokenDeleteRequest request = new AccessTokenDeleteRequest("token");
+
+            // when
+            ExtractableResponse<Response> response = RestAssured.given().log().all()
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .header(HttpHeaders.AUTHORIZATION, TokenContext.getMasterBearerToken())
+                    .body(request)
+                    .delete("/resource/api/v1/access-token")
+                    .then().log().all()
+                    .extract();
+
+            // then
+            assertThat(response.statusCode()).isEqualTo(HttpStatus.NOT_FOUND.value());
         }
     }
 }

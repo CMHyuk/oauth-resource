@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 public class RequiredRoleTest extends ResourceAcceptanceTest {
 
     @Nested
-    @DisplayName("권한 검증이 필요한 요청에서")
+    @DisplayName("권한 검증 시")
     class RoleTest {
 
         @Test
