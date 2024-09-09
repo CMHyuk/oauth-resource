@@ -20,6 +20,7 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter {
         } catch (Exception e) {
             ObjectMapper objectMapper = new ObjectMapper();
             InternalServerErrorCode errorCode = new InternalServerErrorCode(e.getMessage());
+            response.setStatus(500);
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write(objectMapper.writeValueAsString(errorCode));
