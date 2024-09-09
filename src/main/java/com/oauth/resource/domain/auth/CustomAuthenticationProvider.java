@@ -12,14 +12,10 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.jwt.*;
-import org.springframework.security.oauth2.server.resource.InvalidBearerTokenException;
 import org.springframework.security.oauth2.server.resource.authentication.BearerTokenAuthenticationToken;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
-import org.springframework.util.Assert;
 
 import java.security.KeyFactory;
 import java.security.interfaces.RSAPublicKey;
@@ -39,7 +35,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         this.tenantInfoService = tenantInfoService;
     }
 
-    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+    public Authentication authenticate(Authentication authentication) {
         BearerTokenAuthenticationToken bearer = (BearerTokenAuthenticationToken) authentication;
         Jwt jwt = this.getJwt(bearer);
         AbstractAuthenticationToken token = this.jwtAuthenticationConverter.convert(jwt);
@@ -56,14 +52,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
             RSAPublicKey rsaPublicKey = loadPublicKey(publicKeyBytes);
             NimbusJwtDecoder decoder = NimbusJwtDecoder.withPublicKey(rsaPublicKey).build();
             return decoder.decode(bearer.getToken());
-        } catch (BadJwtException var3) {
-            BadJwtException failed = var3;
-            this.logger.debug("Failed to authenticate since the JWT was invalid");
-            throw new InvalidBearerTokenException(failed.getMessage(), failed);
-        } catch (JwtException var4) {
-            JwtException failed = var4;
-            throw new AuthenticationServiceException(failed.getMessage(), failed);
-        } catch (ParseException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
@@ -89,10 +78,5 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
     public boolean supports(Class<?> authentication) {
         return BearerTokenAuthenticationToken.class.isAssignableFrom(authentication);
-    }
-
-    public void setJwtAuthenticationConverter(Converter<Jwt, ? extends AbstractAuthenticationToken> jwtAuthenticationConverter) {
-        Assert.notNull(jwtAuthenticationConverter, "jwtAuthenticationConverter cannot be null");
-        this.jwtAuthenticationConverter = jwtAuthenticationConverter;
     }
 }

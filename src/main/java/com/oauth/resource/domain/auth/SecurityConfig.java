@@ -3,6 +3,7 @@ package com.oauth.resource.domain.auth;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.oauth.resource.domain.tenant.service.TenantInfoService;
 import com.oauth.resource.domain.token.repository.ElasticSearchTokenRepository;
+import com.oauth.resource.global.exception.ExceptionHandlerFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -39,6 +41,7 @@ public class SecurityConfig {
                         request -> request.requestMatchers("/api/master/**", "/api/version", "/api/name").permitAll()
                                 .anyRequest().authenticated()
                 )
+                .addFilterBefore(new ExceptionHandlerFilter(), UsernamePasswordAuthenticationFilter.class)
                 .formLogin(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
                 .oauth2ResourceServer(resourceServer -> resourceServer.jwt(Customizer.withDefaults()))
