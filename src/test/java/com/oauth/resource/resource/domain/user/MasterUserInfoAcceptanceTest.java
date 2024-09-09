@@ -11,8 +11,8 @@ import org.junit.jupiter.api.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
-import static com.oauth.resource.support.DocumentFieldConstants.PASSWORD;
-import static com.oauth.resource.support.DocumentFieldConstants.USER_ID;
+import static com.oauth.resource.support.DocumentFieldConstants.MASTER_USER_PASSWORD;
+import static com.oauth.resource.support.DocumentFieldConstants.MASTER_USER_ID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
@@ -30,9 +30,9 @@ public class MasterUserInfoAcceptanceTest extends ResourceAcceptanceTest {
             // given
             UserInfoSaveRequest request = new UserInfoSaveRequest(
                     "master-name",
-                    USER_ID,
+                    MASTER_USER_ID,
                     "master@example.com",
-                    PASSWORD
+                    MASTER_USER_PASSWORD
             );
 
             // when
@@ -62,7 +62,7 @@ public class MasterUserInfoAcceptanceTest extends ResourceAcceptanceTest {
                     "master-name",
                     "master",
                     "master@example.com",
-                    PASSWORD
+                    MASTER_USER_PASSWORD
             );
 
             // when
@@ -83,9 +83,9 @@ public class MasterUserInfoAcceptanceTest extends ResourceAcceptanceTest {
             // given
             UserInfoSaveRequest request = new UserInfoSaveRequest(
                     "master-name",
-                    USER_ID,
+                    MASTER_USER_ID,
                     "master",
-                    PASSWORD
+                    MASTER_USER_PASSWORD
             );
 
             // when
@@ -106,7 +106,7 @@ public class MasterUserInfoAcceptanceTest extends ResourceAcceptanceTest {
             // when
             ExtractableResponse<Response> response = RestAssured.given().log().all()
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
-                    .get("/resource/api/master/{tenantId}/user/v1/{userId}", tenantId, USER_ID)
+                    .get("/resource/api/master/{tenantId}/user/v1/{userId}", tenantId, MASTER_USER_ID)
                     .then().log().all()
                     .extract();
 
@@ -141,14 +141,14 @@ public class MasterUserInfoAcceptanceTest extends ResourceAcceptanceTest {
             MasterUserInfoUpdateRequest request = new MasterUserInfoUpdateRequest(
                     "updateName",
                     "update@example.com",
-                    PASSWORD
+                    MASTER_USER_PASSWORD
             );
 
             // when
             ExtractableResponse<Response> response = RestAssured.given().log().all()
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .body(request)
-                    .post("/resource/api/master/{tenantId}/user/v1/{userId}/update", tenantId, USER_ID)
+                    .post("/resource/api/master/{tenantId}/user/v1/{userId}/update", tenantId, MASTER_USER_ID)
                     .then().log().all()
                     .extract();
 
@@ -163,14 +163,14 @@ public class MasterUserInfoAcceptanceTest extends ResourceAcceptanceTest {
             MasterUserInfoUpdateRequest request = new MasterUserInfoUpdateRequest(
                     "update-master-name",
                     "updatemaster",
-                    PASSWORD
+                    MASTER_USER_PASSWORD
             );
 
             // when
             ExtractableResponse<Response> response = RestAssured.given().log().all()
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .body(request)
-                    .post("/resource/api/master/{tenantId}/user/v1/{userId}/update", tenantId, USER_ID)
+                    .post("/resource/api/master/{tenantId}/user/v1/{userId}/update", tenantId, MASTER_USER_ID)
                     .then().log().all()
                     .extract();
 

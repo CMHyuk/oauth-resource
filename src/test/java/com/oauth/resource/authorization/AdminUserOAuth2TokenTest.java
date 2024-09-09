@@ -60,8 +60,8 @@ public class AdminUserOAuth2TokenTest extends AuthorizationAcceptanceTest {
     private void loginTest() {
         // when
         ExtractableResponse<Response> response = RestAssured.given().log().all()
-                .queryParam("username", "admin@softcamp.co.kr")
-                .queryParam("password", "password")
+                .queryParam("username", ADMIN_USER_ID)
+                .queryParam("password", ADMIN_USER_PASSWORD)
                 .post("/authorization/login")
                 .then().log().all()
                 .extract();

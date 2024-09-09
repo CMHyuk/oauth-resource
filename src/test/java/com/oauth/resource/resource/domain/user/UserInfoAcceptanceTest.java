@@ -14,6 +14,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
+import static com.oauth.resource.support.DocumentFieldConstants.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
@@ -28,10 +29,8 @@ public class UserInfoAcceptanceTest extends ResourceAcceptanceTest {
         void 어드민_유저를_생성한다() {
             // given
             String username = "admin";
-            String userId = "admin@softcamp.co.kr";
             String email = "admin@email.com";
-            String password = "password";
-            UserInfoSaveRequest request = new UserInfoSaveRequest(username, userId, email, password);
+            UserInfoSaveRequest request = new UserInfoSaveRequest(username, ADMIN_USER_ID, email, ADMIN_USER_PASSWORD);
 
             // when
             ExtractableResponse<Response> response = RestAssured.given().log().all()
@@ -46,7 +45,7 @@ public class UserInfoAcceptanceTest extends ResourceAcceptanceTest {
             assertAll(
                     () ->  assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
                     () ->  assertThat(response.body().jsonPath().getString("response.username")).isEqualTo(username),
-                    () ->  assertThat(response.body().jsonPath().getString("response.userId")).isEqualTo(userId),
+                    () ->  assertThat(response.body().jsonPath().getString("response.userId")).isEqualTo(ADMIN_USER_ID),
                     () ->  assertThat(response.body().jsonPath().getString("response.email")).isEqualTo(email),
                     () ->  assertThat(response.body().jsonPath().getString("response.password")).isNotNull(),
                     () -> assertThat(response.body().jsonPath().getString("response.userRole")).isEqualTo("[ADMIN]")
@@ -57,10 +56,8 @@ public class UserInfoAcceptanceTest extends ResourceAcceptanceTest {
         void 일반_유저를_생성한다() {
             // given
             String username = "user";
-            String userId = "user@softcamp.co.kr";
             String email = "user@email.com";
-            String password = "password";
-            UserInfoSaveRequest request = new UserInfoSaveRequest(username, userId, email, password);
+            UserInfoSaveRequest request = new UserInfoSaveRequest(username, USER_ID, email, USER_PASSWORD);
 
             // when
             ExtractableResponse<Response> response = RestAssured.given().log().all()
@@ -75,7 +72,7 @@ public class UserInfoAcceptanceTest extends ResourceAcceptanceTest {
             assertAll(
                     () ->  assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
                     () ->  assertThat(response.body().jsonPath().getString("response.username")).isEqualTo(username),
-                    () ->  assertThat(response.body().jsonPath().getString("response.userId")).isEqualTo(userId),
+                    () ->  assertThat(response.body().jsonPath().getString("response.userId")).isEqualTo(USER_ID),
                     () ->  assertThat(response.body().jsonPath().getString("response.email")).isEqualTo(email),
                     () ->  assertThat(response.body().jsonPath().getString("response.password")).isNotNull(),
                     () -> assertThat(response.body().jsonPath().getString("response.userRole")).isEqualTo("[USER]")

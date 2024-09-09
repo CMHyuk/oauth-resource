@@ -18,7 +18,7 @@ import org.springframework.http.MediaType;
 
 
 import static com.oauth.resource.support.DocumentFieldConstants.CLIENT_ID;
-import static com.oauth.resource.support.DocumentFieldConstants.USER_ID;
+import static com.oauth.resource.support.DocumentFieldConstants.MASTER_USER_ID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
@@ -64,14 +64,14 @@ public class DeleteAcceptanceTest extends ResourceAcceptanceTest {
             // when
             ExtractableResponse<Response> response = RestAssured.given().log().all()
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
-                    .post("/resource/api/master/{tenantId}/user/v1/{userId}/delete", tenantId, USER_ID)
+                    .post("/resource/api/master/{tenantId}/user/v1/{userId}/delete", tenantId, MASTER_USER_ID)
                     .then().log().all()
                     .extract();
 
             // then
             assertAll(
                     () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
-                    () -> assertThat(userInfoRepository.findByUserId(USER_ID)).isEmpty()
+                    () -> assertThat(userInfoRepository.findByUserId(MASTER_USER_ID)).isEmpty()
             );
         }
     }
