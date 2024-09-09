@@ -23,7 +23,7 @@ podTemplate(
 
                 VERSION = readMavenPom().getVersion()
 
-                stage('JUnit Test') {
+                stage('Maven Build') {
                     MAVEN_BUILD_OPT = "-Pdev clean verify package"
                     MAVEN_BUILD_DCHECK_OPT = "-Ddependency-check.skip=true"
                     MAVEN_BUILD_SKIP_JUNIT_TEST = "-Dmaven.test.skip=false -Dspring.profiles.active=local"
