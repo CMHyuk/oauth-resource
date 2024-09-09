@@ -5,7 +5,6 @@ import com.oauth.resource.domain.authorization.exception.OAuth2AuthorizationErro
 import com.oauth.resource.domain.authorization.model.CustomOAuth2Authorization;
 import com.oauth.resource.domain.authorization.repository.CustomOAuth2AuthorizationBaseRepository;
 import com.oauth.resource.global.exception.BusinessException;
-import com.oauth.resource.support.AuthorizationAcceptanceTest;
 import io.restassured.RestAssured;
 import io.restassured.http.Cookies;
 import io.restassured.response.ExtractableResponse;
@@ -14,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.codec.binary.Base64;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
 import java.net.URI;
@@ -27,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED_VALUE;
 
 @RequiredArgsConstructor
-public class TokenProvider extends AuthorizationAcceptanceTest {
+public class TokenProvider {
 
     private final CustomOAuth2AuthorizationBaseRepository customOAuth2AuthorizationBaseRepository;
 
