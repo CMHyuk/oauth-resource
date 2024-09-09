@@ -1,13 +1,14 @@
 package com.oauth.resource.support;
 
+import lombok.Getter;
 import lombok.Setter;
 
 public class TokenContext {
 
-    @Setter
+    @Getter @Setter
     private static String accessToken;
 
-    public static String getAccessToken() {
+    public static String getBearerToken() {
         return "Bearer " + accessToken;
     }
 }
