@@ -46,7 +46,7 @@ public class UserInfo extends BaseEntity {
 
     public void validateAdminOrMaster() {
         if (!isAdmin() && !isMaster()) {
-            throw BusinessException.from(UserErrorCode.UNAUTHORIZED);
+            throw BusinessException.from(UserErrorCode.FORBIDDEN);
         }
     }
 
@@ -56,7 +56,7 @@ public class UserInfo extends BaseEntity {
 
     public void validateMaster() {
         if (!isMaster()) {
-            throw BusinessException.from(UserErrorCode.UNAUTHORIZED);
+            throw BusinessException.from(UserErrorCode.FORBIDDEN);
         }
     }
 
