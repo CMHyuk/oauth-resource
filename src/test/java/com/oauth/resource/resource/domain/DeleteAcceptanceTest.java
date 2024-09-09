@@ -17,7 +17,7 @@ import static com.oauth.resource.support.DocumentFieldConstants.CLIENT_ID;
 import static com.oauth.resource.support.DocumentFieldConstants.USER_ID;
 import static org.assertj.core.api.Assertions.assertThat;
 
-@TestClassesOrder(9)
+@TestClassesOrder(11)
 public class DeleteAcceptanceTest extends ResourceAcceptanceTest {
 
     @Nested
@@ -63,12 +63,12 @@ public class DeleteAcceptanceTest extends ResourceAcceptanceTest {
         @Test
         void 삭제한다() {
             // given
-            AccessTokenDeleteRequest request = new AccessTokenDeleteRequest(TokenContext.getAccessToken());
+            AccessTokenDeleteRequest request = new AccessTokenDeleteRequest(TokenContext.getMasterUserAccessToken());
 
             // when
             ExtractableResponse<Response> response = RestAssured.given().log().all()
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
-                    .header(HttpHeaders.AUTHORIZATION, TokenContext.getBearerToken())
+                    .header(HttpHeaders.AUTHORIZATION, TokenContext.getMasterBearerToken())
                     .body(request)
                     .delete("/resource/api/v1/access-token")
                     .then().log().all()

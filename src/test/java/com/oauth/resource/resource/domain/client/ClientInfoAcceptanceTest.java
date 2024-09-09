@@ -33,7 +33,7 @@ public class ClientInfoAcceptanceTest extends ResourceAcceptanceTest {
         // when
         ExtractableResponse<Response> response = RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .header(HttpHeaders.AUTHORIZATION, TokenContext.getBearerToken())
+                .header(HttpHeaders.AUTHORIZATION, TokenContext.getMasterBearerToken())
                 .body(request)
                 .post("/resource/api/{tenantId}/client/v1/create", tenantId)
                 .then().log().all()

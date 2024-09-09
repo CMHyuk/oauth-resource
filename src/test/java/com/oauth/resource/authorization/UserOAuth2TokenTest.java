@@ -14,7 +14,7 @@ import io.restassured.response.Response;
 import org.apache.commons.codec.binary.Base64;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
@@ -28,8 +28,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED_VALUE;
 
-@TestClassesOrder(4)
-public class AuthorizationServerAcceptanceTest extends AuthorizationAcceptanceTest {
+@TestClassesOrder(9)
+public class UserOAuth2TokenTest extends AuthorizationAcceptanceTest {
 
     @Autowired
     private CustomOAuth2AuthorizationBaseRepository customOAuth2AuthorizationBaseRepository;
@@ -38,7 +38,7 @@ public class AuthorizationServerAcceptanceTest extends AuthorizationAcceptanceTe
     private String code;
 
     @Test
-    void 인가_서버에서_토큰을_발행한다() throws URISyntaxException {
+    void 일반_유저가_토큰을_발행한다() throws URISyntaxException {
         loginPageTest();
         loginTest();
         consentPageTest();
@@ -60,8 +60,8 @@ public class AuthorizationServerAcceptanceTest extends AuthorizationAcceptanceTe
     private void loginTest() {
         // when
         ExtractableResponse<Response> response = RestAssured.given().log().all()
-                .queryParam("username", USER_ID)
-                .queryParam("password", PASSWORD)
+                .queryParam("username", "user@softcamp.co.kr")
+                .queryParam("password", "password")
                 .post("/authorization/login")
                 .then().log().all()
                 .extract();
@@ -126,7 +126,7 @@ public class AuthorizationServerAcceptanceTest extends AuthorizationAcceptanceTe
                 .extract();
 
         // then
-        TokenContext.setAccessToken(response.body().jsonPath().getString("access_token"));
+        TokenContext.setUserAccessToken(response.body().jsonPath().getString("access_token"));
         assertAll(
                 () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
                 () -> assertThat(response.body().jsonPath().getString("access_token")).isNotNull(),

@@ -6,9 +6,23 @@ import lombok.Setter;
 public class TokenContext {
 
     @Getter @Setter
-    private static String accessToken;
+    private static String masterUserAccessToken;
 
-    public static String getBearerToken() {
-        return "Bearer " + accessToken;
+    @Setter
+    private static String adminUserAccessToken;
+
+    @Setter
+    private static String userAccessToken;
+
+    public static String getMasterBearerToken() {
+        return "Bearer " + masterUserAccessToken;
+    }
+
+    public static String getAdminBearerToken() {
+        return "Bearer " + adminUserAccessToken;
+    }
+
+    public static String getUserBearerAccessToken() {
+        return "Bearer " + userAccessToken;
     }
 }
